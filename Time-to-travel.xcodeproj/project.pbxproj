@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD3EA3CF2A8F77DD0095E372 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3CE2A8F77DD0095E372 /* TabBarCoordinator.swift */; };
 		ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */; };
 		ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */; };
 		ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D00A2A84FD47005BCC73 /* TicketsViewController.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD3EA3CE2A8F77DD0095E372 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		ADE1D0032A84FD47005BCC73 /* Time-to-travel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time-to-travel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			children = (
 				ADE1D0352A864D33005BCC73 /* CoordinatorProtocol.swift */,
 				ADE1D0372A864D46005BCC73 /* MainCoordinator.swift */,
+				AD3EA3CE2A8F77DD0095E372 /* TabBarCoordinator.swift */,
 				ADE1D0392A864D60005BCC73 /* TicketsCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -247,6 +250,7 @@
 				ADE1D0222A850116005BCC73 /* UIView + Extension.swift in Sources */,
 				ADE1D0242A85013E005BCC73 /* UILabel + Extension.swift in Sources */,
 				ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */,
+				AD3EA3CF2A8F77DD0095E372 /* TabBarCoordinator.swift in Sources */,
 				ADE1D0282A850197005BCC73 /* FlightTicket.swift in Sources */,
 				ADE1D02D2A8501DE005BCC73 /* DetailsViewModel.swift in Sources */,
 				ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */,

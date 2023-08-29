@@ -61,9 +61,14 @@ final class TicketsViewModel {
 
     // MARK: - Private methods
     private func mockNetworkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + .seconds(1)) {
+        
+        let networkQueue = DispatchQueue.global(qos: .utility)
+        networkQueue.async { //загружаем асинхронно
             let model = getMockData()
-            completion(model) ///а. передали в клоужер массив билетов
+
+            DispatchQueue.main.async {
+                completion(model) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
+            }
         }
     }
 }
