@@ -27,6 +27,7 @@ final class TicketsViewModel {
 
     // MARK: - Private properties
     private weak var coordinator: TicketsCoordinator?
+    private weak var networkManager: NetworkManagerProtocol?
 
     private var state: State = .none { ///none - т.к. пока не значем что будет происходить, а каждый раз как будем изменять State - будем вызывать клоужер
         didSet {
@@ -61,14 +62,20 @@ final class TicketsViewModel {
 
     // MARK: - Private methods
     private func mockNetworkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
-        
+
         let networkQueue = DispatchQueue.global(qos: .utility)
         networkQueue.async { //загружаем асинхронно
-            let model = getMockData()
+            let networkManager = NetworkManager()
+            let data = networkManager.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { tickets in
+                print(tickets)
 
-            DispatchQueue.main.async {
-                completion(model) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
+                //парсим
+//                DispatchQueue.main.async {
+                //или тут парсим и записываем в модель
+//                    completion(model) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
+//                }
             }
+
         }
     }
 }
