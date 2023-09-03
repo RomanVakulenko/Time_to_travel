@@ -61,23 +61,48 @@ final class TicketsViewModel {
     }
 
     // MARK: - Private methods
-    private func mockNetworkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
+    /// [TicketForUI] -> [FlightTicket]
+    public func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ РАЗМЕЩАТЬ ГЛОБАЛЬНЫЕ МЕТОДЫ?
+        var resultArray: [FlightTicket] = []
+        for number in 0..<uiTickets.count {
+            let newTicket = FlightTicket(
+                city1: "\(uiTickets[number].city1)",
+                city2: "\(uiTickets[number].city2)",
+                departureDate: getDate(fromString: uiTickets[number].departureDateString) ?? Date(),
+                arrivalDate: getDate(fromString: uiTickets[number].arrivalDateString) ?? Date(),
+                price: uiTickets[number].price,
+                isLike: false
+            )
+            resultArray.append(newTicket)
+        }
+        return resultArray
+    }
 
+    /// dateFormatter (String) -> Date
+    private func getDate(fromString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: fromString)
+    }
+
+
+    private func mockNetworkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
         let networkQueue = DispatchQueue.global(qos: .utility)
         networkQueue.async { //загружаем асинхронно
             let networkManager = NetworkManager()
-            let data = networkManager.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { tickets in
-                print(tickets)
-
-                //парсим
-//                DispatchQueue.main.async {
-                //или тут парсим и записываем в модель
-//                    completion(model) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
-//                }
+            networkManager.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { [weak self] ticketsData in
+                if let flightTickets = self?.getTickets(uiTickets: ticketsData) {
+                    DispatchQueue.main.async {
+                    //тут записываем в модель
+                        completion(flightTickets) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
+                    }
+                }
             }
-
         }
     }
+
 }
 
 // MARK: - LikesDelegate
@@ -88,6 +113,3 @@ extension TicketsViewModel: LikesDelegate2to1 {
         state = .reloadItems(at: [indexPath])
     }
 }
-
-
-

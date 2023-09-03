@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol NetworkManagerProtocol: AnyObject {
-    func fetchData(ticketsOptions: String, completion: @escaping (Data) -> Void)
+    func fetchData(ticketsOptions: String, completion: @escaping ([TicketForUI]) -> Void)
 }
 
 
@@ -23,14 +23,14 @@ final class NetworkManager {
 
     // MARK: - Private properties
     private let decoder = JSONDecoder()
+    private var ticketArr = [TicketForUI]()
 
     // MARK: - Private methods
-    private func createRequest(tickets: String) throws -> URLRequest {
-
+    private func createRequest(withOptions options: String) throws -> URLRequest {
         var urlComponents = URLComponents()
         urlComponents.scheme = "http"
         urlComponents.host = "api.travelpayouts.com"
-        urlComponents.path = tickets
+        urlComponents.path = options
         urlComponents.queryItems = [
             URLQueryItem(name: "currency", value: "rub"),
             URLQueryItem(name: "period_type", value: "year"),
@@ -45,35 +45,52 @@ final class NetworkManager {
     }
 
 
-    private func parseJSON(withData data: Data) -> TicketForUI? {
+    private func parseJSON(withData data: Data) -> [TicketForUI]? {
+        let dataFromTextJsonToDisplayMultipleFlights = textJsonToDisplayMultiple.data(using: .utf8)
         do {
-            let ticketsDataForPeriod = try decoder.decode(TicketsDataForPeriod.self, from: data) //декодируем JSON в structData
-            guard let ticketForUI = TicketForUI(ticketData: ticketsDataForPeriod.data) else { //cоздаем из structData модельUI
-                assertionFailure("не удалось создать ticketForUI")
-                return nil
-            }
-            return ticketForUI
+            let parsedTicketsData = try decoder.decode(TicketsDataForPeriod.self, from: dataFromTextJsonToDisplayMultipleFlights!) // JSON -> TicketsDataForPeriod
+//            print(parsedTicketsData)
+            var ticketsArrForUI = makeArrOfTicketsForUI(dataTickets: parsedTicketsData.data) // data: [TicketData] -> [TicketForUI]
+//            print(ticketsArrForUI)
+            return ticketsArrForUI
         } catch let error {
             print(error.localizedDescription)
         }
         return nil
+    }
+
+
+    // MARK: - private method transforms TicketForUI -> [TicketForUI]
+    private func makeArrOfTicketsForUI(dataTickets: [TicketData]) -> [TicketForUI] { //
+        var resultArray: [TicketForUI] = []
+
+        for number in 0..<dataTickets.count {
+            let newTicket = TicketForUI(
+                city1: "\(dataTickets[number].origin)",
+                city2: "\(dataTickets[number].destination)",
+                departureDateString: dataTickets[number].departDate,
+                arrivalDateString: dataTickets[number].returnDate,
+                price: dataTickets[number].value
+            )
+            resultArray.append(newTicket)
+        }
+        return resultArray
     }
 }
 
 // MARK: - NetworkManagerProtocol
 extension NetworkManager: NetworkManagerProtocol {
 
-    func fetchData(ticketsOptions: String, completion: @escaping (Data) -> Void) {
+    func fetchData(ticketsOptions: String, completion: @escaping ([TicketForUI]) -> Void) {
         do {
-            let urlRequest = try createRequest(tickets: ticketsOptions)
-            URLSession.shared.dataTask(with: urlRequest) { data, _, _ in
+            let urlRequest = try createRequest(withOptions: ticketsOptions)
+            let task = URLSession.shared.dataTask(with: urlRequest) { data, _, _ in
                 guard let data else { return }
-                completion(data)
-                let tickets = self.parseJSON(withData: data)
-                print("\n-----------\n")
-                print(tickets)
-
-            }.resume()
+                if let tickets = self.parseJSON(withData: data) {
+                    completion(tickets)
+                }
+            }
+            task.resume()
         
         } catch RequestErrors.noData {
             print(RequestErrors.noData.rawValue)
@@ -87,4 +104,42 @@ extension NetworkManager: NetworkManagerProtocol {
     }
 }
 
-
+let textJsonToDisplayMultiple = """
+{
+    "currency": "rub",
+    "error": "",
+    "data": [
+        {
+            "depart_date": "2023-09-13",
+            "origin": "MOW",
+            "destination": "EKV",
+            "gate": "Azimuth",
+            "return_date": "2023-09-15",
+            "found_at": "2023-09-03T08:41:07",
+            "trip_class": 0,
+            "value": 3230,
+            "number_of_changes": 0,
+            "duration": 165,
+            "distance": 600,
+            "show_to_affiliates": true,
+            "actual": true
+        },
+        {
+            "depart_date": "2023-08-13",
+            "origin": "MOW",
+            "destination": "SSV",
+            "gate": "Azimuth",
+            "return_date": "2023-01-15",
+            "found_at": "2023-09-03T08:41:07",
+            "trip_class": 0,
+            "value": 1430,
+            "number_of_changes": 0,
+            "duration": 165,
+            "distance": 600,
+            "show_to_affiliates": true,
+            "actual": true
+        }
+    ],
+    "success": true
+}
+"""
