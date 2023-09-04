@@ -19,6 +19,11 @@ final class TicketsViewModel {
         case wrong(errorDescription: String)
     }
 
+   private enum Tickets: String {
+        case forPeriod = "/v2/prices/latest" //Цены на авиабилеты за период
+        case fakeRequest = "fakeURLPath"
+    }
+
     // MARK: - Public properties
     ///благодаря клоужеру мы bindимся (в связи - bind вся суть MVVM )
     var closureChangeState: ((State) -> Void)?
@@ -55,14 +60,14 @@ final class TicketsViewModel {
         /// VC в didSelectItemAt вызывает этот метод у ViewModel, а она в свою очередь говорит координатору - открой мне экран: (вызывает метод координатора - pushDetailsVC и передает в него следующие параметры)
         coordinator?.pushDetailsVC(
             model: model,
-            delegate: self, // зачем?...self это TicketsViewModel, типа TicketsViewModel - делегат DetailsViewModelи?, чтобы реализовать ниже метод протокола LikesDelegate2to1 - чтобы установить лайк?
+            delegate: self, // зачем??...self это TicketsViewModel, т.е. TicketsViewModel - это делегат DetailsViewModelи?, это чтобы реализовать ниже метод протокола LikesDelegate2to1 и установить лайк?
             indexPath: indexPath
         )
     }
 
     // MARK: - Private methods
     /// [TicketForUI] -> [FlightTicket]
-    public func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ РАЗМЕЩАТЬ ГЛОБАЛЬНЫЕ МЕТОДЫ?
+    public func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД?
         var resultArray: [FlightTicket] = []
         for number in 0..<uiTickets.count {
             let newTicket = FlightTicket(

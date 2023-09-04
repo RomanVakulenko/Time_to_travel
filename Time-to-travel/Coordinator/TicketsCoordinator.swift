@@ -30,7 +30,7 @@ final class TicketsCoordinator {
     private func makeDetailsVC(model: FlightTicket, delegate: LikesDelegate2to1, indexPath: IndexPath) -> UIViewController {
         let detailsViewModel = DetailsViewModel(
             ticketModel: model,
-            delegate: delegate, //зачем тут указывать делегата?
+            delegate: delegate, //зачем тут указывать делегата??
             indexPath: indexPath
         )
         let detailVC = DetailsViewController(viewModel: detailsViewModel)
@@ -48,7 +48,7 @@ extension TicketsCoordinator: CoordinatorProtocol {
     }
     /// когда во VC нажмем на ячейку, то вызываем viewModel.didTapCell(indexPath: indexPath), и тогда  viewModel у себя в didTapCell требует TicketsCoordinator'а запушить-открыть DetailsVC
     func pushDetailsVC(model: FlightTicket, delegate: LikesDelegate2to1, indexPath: IndexPath) {
-        let vc = makeDetailsVC(model: model, delegate: delegate, indexPath: indexPath) //зачем делегат?
+        let vc = makeDetailsVC(model: model, delegate: delegate, indexPath: indexPath) //зачем делегат??
         navigationController.pushViewController(vc, animated: true)
     }
 }

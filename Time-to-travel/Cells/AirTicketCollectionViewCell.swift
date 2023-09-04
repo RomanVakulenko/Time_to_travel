@@ -107,7 +107,7 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
         arrivalCity.text = "\(model.city2)"
         atDate.text = "At \(formatter.string(from: model.departureDate))"
         landingDate.text = "At \(formatter.string(from: model.arrivalDate))"
-        price.text = "Price: \(String(model.price)) $"
+        price.text = "Price: \(String(model.price)) ₽"
         
         if model.isLike == true {
             likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -163,7 +163,7 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
     // MARK: - Actions
     @objc func tapAtLike(_ sender: UIButton) {
 
-//#error("как отсюда забрать состояние лайка и передать его в модель, чтобы при скролле лайк не терялся")
+//#error("как отсюда забрать состояние лайка и передать его в модель, чтобы при скролле лайк не терялся") ??
         if likes.currentImage == UIImage(systemName: "heart") {
             likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)
 

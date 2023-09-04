@@ -134,7 +134,7 @@ final class DetailsViewController: UIViewController {
         arrivalCity.text = "\(model.city2)"
         atDate.text = "At \(formatter.string(from: model.departureDate))"
         landingDate.text = "At \(formatter.string(from: model.arrivalDate))"
-        price.text = "Price: \(String(model.price)) $"
+        price.text = "Price: \(String(model.price)) rub"
 
         if model.isLike == true {
             likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)

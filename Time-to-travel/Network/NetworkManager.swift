@@ -21,9 +21,9 @@ final class NetworkManager {
         case unableToCreateRequest
     }
 
+
     // MARK: - Private properties
     private let decoder = JSONDecoder()
-    private var ticketArr = [TicketForUI]()
 
     // MARK: - Private methods
     private func createRequest(withOptions options: String) throws -> URLRequest {
@@ -43,15 +43,14 @@ final class NetworkManager {
 
         return URLRequest(url: url)
     }
+    //      http://api.travelpayouts.com/v2/prices/latest?currency=rub&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=price&token=8adf47e8d901e2a6f5b58897510f9cdb
 
-
+//
     private func parseJSON(withData data: Data) -> [TicketForUI]? {
-        let dataFromTextJsonToDisplayMultipleFlights = textJsonToDisplayMultiple.data(using: .utf8)
+//        let dataFromTextJsonToDisplayMultipleFlights = textJsonToDisplayMultiple.data(using: .utf8) //чтобы провить показ нескольких билетов (иной раз запрос выдает по 1 билету)
         do {
-            let parsedTicketsData = try decoder.decode(TicketsDataForPeriod.self, from: dataFromTextJsonToDisplayMultipleFlights!) // JSON -> TicketsDataForPeriod
-//            print(parsedTicketsData)
+            let parsedTicketsData = try decoder.decode(TicketsDataForPeriod.self, from: data) // JSON -> TicketsDataForPeriod
             var ticketsArrForUI = makeArrOfTicketsForUI(dataTickets: parsedTicketsData.data) // data: [TicketData] -> [TicketForUI]
-//            print(ticketsArrForUI)
             return ticketsArrForUI
         } catch let error {
             print(error.localizedDescription)
@@ -61,7 +60,7 @@ final class NetworkManager {
 
 
     // MARK: - private method transforms TicketForUI -> [TicketForUI]
-    private func makeArrOfTicketsForUI(dataTickets: [TicketData]) -> [TicketForUI] { //
+    private func makeArrOfTicketsForUI(dataTickets: [TicketData]) -> [TicketForUI] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД?
         var resultArray: [TicketForUI] = []
 
         for number in 0..<dataTickets.count {
@@ -104,42 +103,42 @@ extension NetworkManager: NetworkManagerProtocol {
     }
 }
 
-let textJsonToDisplayMultiple = """
-{
-    "currency": "rub",
-    "error": "",
-    "data": [
-        {
-            "depart_date": "2023-09-13",
-            "origin": "MOW",
-            "destination": "EKV",
-            "gate": "Azimuth",
-            "return_date": "2023-09-15",
-            "found_at": "2023-09-03T08:41:07",
-            "trip_class": 0,
-            "value": 3230,
-            "number_of_changes": 0,
-            "duration": 165,
-            "distance": 600,
-            "show_to_affiliates": true,
-            "actual": true
-        },
-        {
-            "depart_date": "2023-08-13",
-            "origin": "MOW",
-            "destination": "SSV",
-            "gate": "Azimuth",
-            "return_date": "2023-01-15",
-            "found_at": "2023-09-03T08:41:07",
-            "trip_class": 0,
-            "value": 1430,
-            "number_of_changes": 0,
-            "duration": 165,
-            "distance": 600,
-            "show_to_affiliates": true,
-            "actual": true
-        }
-    ],
-    "success": true
-}
-"""
+//let textJsonToDisplayMultiple = """
+//{
+//    "currency": "rub",
+//    "error": "",
+//    "data": [
+//        {
+//            "depart_date": "2023-09-13",
+//            "origin": "MOW",
+//            "destination": "EKV",
+//            "gate": "Azimuth",
+//            "return_date": "2023-09-15",
+//            "found_at": "2023-09-03T08:41:07",
+//            "trip_class": 0,
+//            "value": 3230,
+//            "number_of_changes": 0,
+//            "duration": 165,
+//            "distance": 600,
+//            "show_to_affiliates": true,
+//            "actual": true
+//        },
+//        {
+//            "depart_date": "2023-08-13",
+//            "origin": "MOW",
+//            "destination": "SSV",
+//            "gate": "Azimuth",
+//            "return_date": "2023-01-15",
+//            "found_at": "2023-09-03T08:41:07",
+//            "trip_class": 0,
+//            "value": 1430,
+//            "number_of_changes": 0,
+//            "duration": 165,
+//            "distance": 600,
+//            "show_to_affiliates": true,
+//            "actual": true
+//        }
+//    ],
+//    "success": true
+//}
+//"""

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AD1B7D402A9F8911008E0098 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */; };
 		AD1B7D422A9F9079008E0098 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D412A9F9078008E0098 /* Singleton.swift */; };
-		AD1B7D452AA0A5D7008E0098 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D442AA0A5D7008E0098 /* Constants.swift */; };
 		AD1B7D472AA0D4C9008E0098 /* TicketsDataForPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */; };
 		AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */; };
 		AD3EA3CF2A8F77DD0095E372 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3CE2A8F77DD0095E372 /* TabBarCoordinator.swift */; };
@@ -34,7 +33,6 @@
 /* Begin PBXFileReference section */
 		AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AD1B7D412A9F9078008E0098 /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
-		AD1B7D442AA0A5D7008E0098 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsDataForPeriod.swift; sourceTree = "<group>"; };
 		AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketForUI.swift; sourceTree = "<group>"; };
 		AD3EA3CE2A8F77DD0095E372 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				AD1B7D412A9F9078008E0098 /* Singleton.swift */,
-				AD1B7D442AA0A5D7008E0098 /* Constants.swift */,
 				AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */,
 			);
 			path = Network;
@@ -284,7 +281,6 @@
 				ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */,
 				AD1B7D422A9F9079008E0098 /* Singleton.swift in Sources */,
 				ADE1D0302A850215005BCC73 /* AirTicketCollectionViewCell.swift in Sources */,
-				AD1B7D452AA0A5D7008E0098 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
