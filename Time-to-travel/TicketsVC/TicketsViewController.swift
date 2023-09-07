@@ -15,7 +15,7 @@ import UIKit
 final class TicketsViewController: UIViewController {
 
     // MARK: - Private properties
-    private let viewModel: TicketsViewModel
+    private let viewModel: TicketsViewModelProtocol // т.к. NetworkAPIProtocol тут не нужен
 
     //MARK: - Subviews
     private lazy var loadindView: UIView = {
@@ -66,8 +66,8 @@ final class TicketsViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
-    init(viewModel: TicketsViewModel) {
-        self.viewModel = viewModel
+    init(viewModel: TicketsViewModelProtocol) {
+        self.viewModel = viewModel // as! TicketsViewModel // ??force downCast требовался, когда viewModel: TicketsViewModel. Как-то иначе покрывают протоколами? Покрывать протоколами только при инъекции зависимостей или и свойства тоже (как viewModel выше)??
         super.init(nibName: nil, bundle: nil)
     }
 

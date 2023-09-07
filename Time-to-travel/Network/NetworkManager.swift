@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol NetworkManagerProtocol: AnyObject {
-    func fetchData(ticketsOptions: String, completion: @escaping ([TicketForUI]) -> Void)
+    func fetchData(ticketsOptions: String, completion: @escaping ([TicketForUI]) -> Void) //async throws
 }
 
 
@@ -19,8 +19,8 @@ final class NetworkManager {
         case noData
         case noToken
         case unableToCreateRequest
+        case unableToCreateURL
     }
-
 
     // MARK: - Private properties
     private let decoder = JSONDecoder()
@@ -40,7 +40,6 @@ final class NetworkManager {
             URLQueryItem(name: "token", value: Singleton.sharedInstance.token),
         ]
         guard let url = urlComponents.url else { throw RequestErrors.unableToCreateRequest }
-
         return URLRequest(url: url)
     }
     //      http://api.travelpayouts.com/v2/prices/latest?currency=rub&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=price&token=8adf47e8d901e2a6f5b58897510f9cdb
@@ -50,7 +49,7 @@ final class NetworkManager {
 //        let dataFromTextJsonToDisplayMultipleFlights = textJsonToDisplayMultiple.data(using: .utf8) //чтобы провить показ нескольких билетов (иной раз запрос выдает по 1 билету)
         do {
             let parsedTicketsData = try decoder.decode(TicketsDataForPeriod.self, from: data) // JSON -> TicketsDataForPeriod
-            var ticketsArrForUI = makeArrOfTicketsForUI(dataTickets: parsedTicketsData.data) // data: [TicketData] -> [TicketForUI]
+            let ticketsArrForUI = makeArrOfTicketsForUI(dataTickets: parsedTicketsData.data) // data: [TicketData] -> [TicketForUI]
             return ticketsArrForUI
         } catch let error {
             print(error.localizedDescription)
@@ -90,7 +89,7 @@ extension NetworkManager: NetworkManagerProtocol {
                 }
             }
             task.resume()
-        
+
         } catch RequestErrors.noData {
             print(RequestErrors.noData.rawValue)
         } catch RequestErrors.noToken {
@@ -101,6 +100,29 @@ extension NetworkManager: NetworkManagerProtocol {
             print( "что-то неизвестное")
         }
     }
+
+//вариант с async
+//    func fetchData(ticketsOptions: String, completion: @escaping ([TicketForUI]) -> Void) async throws {
+//        do {
+//            let urlRequest = try createRequest(withOptions: ticketsOptions)
+//            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+//            if let tickets = self.parseJSON(withData: data) {
+//                completion(tickets)
+//            }
+//        } catch RequestErrors.noData {
+//            print(RequestErrors.noData.rawValue)
+//        } catch RequestErrors.noToken {
+//            print(RequestErrors.noToken.rawValue)
+//        } catch RequestErrors.unableToCreateRequest {
+//            print(RequestErrors.unableToCreateRequest.rawValue)
+//        } catch RequestErrors.unableToCreateURL{
+//            print(RequestErrors.unableToCreateRequest.rawValue)
+//        } catch {
+//            print( "что-то неизвестное")
+//        }
+//    }
+
+
 }
 
 //let textJsonToDisplayMultiple = """

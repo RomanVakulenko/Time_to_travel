@@ -8,16 +8,36 @@
 
 import Foundation
 
-final class TicketsViewModel {
+protocol NetworkAPIProtocol: AnyObject {
+    func networkAPI(completion: @escaping ([FlightTicket]) -> Void)
+}
 
-    // MARK: - Enum
-    enum State { ///мин для работы с сетью, но может быть больше состояний
-        case none
-        case loading
-        case loaded
-        case reloadItems(at: [IndexPath])
-        case wrong(errorDescription: String)
-    }
+protocol TicketsViewModelRequestProtocol: AnyObject {
+    func requestTickets()
+}
+
+protocol TicketsViewModelTapCellProtocol: AnyObject {
+    func didTapCell(indexPath: IndexPath)
+}
+
+// MARK: - Enum
+enum State { ///мин для работы с сетью, но может быть больше состояний
+    case none
+    case loading
+    case loaded
+    case reloadItems(at: [IndexPath])
+    case wrong(errorDescription: String)
+}
+
+protocol TicketsViewModelProtocol: TicketsViewModelRequestProtocol, TicketsViewModelTapCellProtocol {
+
+    var closureChangeState: ((State) -> Void)? { get set }
+    var ticketsListModel: [FlightTicket] { get set }
+
+}
+
+
+final class TicketsViewModel {
 
    private enum Tickets: String {
         case forPeriod = "/v2/prices/latest" //Цены на авиабилеты за период
@@ -28,11 +48,11 @@ final class TicketsViewModel {
     ///благодаря клоужеру мы bindимся (в связи - bind вся суть MVVM )
     var closureChangeState: ((State) -> Void)?
 
-    private(set) var ticketsListModel: [FlightTicket] = []
+    var ticketsListModel: [FlightTicket] = []
 
     // MARK: - Private properties
     private weak var coordinator: TicketsCoordinator?
-    private weak var networkManager: NetworkManagerProtocol?
+    private var networkManager: NetworkManagerProtocol? // ??убрал weak; если weak,ТО на 98стр xCode писал, что Instance will be immediately deallocated because property 'networkManager' is 'weak' //protocolCoverage так надо делать??
 
     private var state: State = .none { ///none - т.к. пока не значем что будет происходить, а каждый раз как будем изменять State - будем вызывать клоужер
         didSet {
@@ -45,29 +65,9 @@ final class TicketsViewModel {
         self.coordinator = coordinator
     }
 
-
-    // MARK: - Public methods
-    func requestTickets() {
-        state = .loading ///в клоужер closureChangeState передается state - сказали - идет загрузка
-        mockNetworkAPI { tickets in ///как только придет массив билетов(из сети), тогда...б. массив билетов приняли от сетевого слоя
-            self.ticketsListModel = tickets ///. ...мы обновим модель данных (а до этого момента коллекция пустая) загруженными из сети данными
-            self.state = .loaded /// и пепердаем в клоужер closureChangeState state , чтобы он его принял и во VC совершил нужные дейстия согласно этому state
-        }
-    }
-
-    func didTapCell(indexPath: IndexPath) {
-        let model = ticketsListModel[indexPath.item]
-        /// VC в didSelectItemAt вызывает этот метод у ViewModel, а она в свою очередь говорит координатору - открой мне экран: (вызывает метод координатора - pushDetailsVC и передает в него следующие параметры)
-        coordinator?.pushDetailsVC(
-            model: model,
-            delegate: self, // зачем??...self это TicketsViewModel, т.е. TicketsViewModel - это делегат DetailsViewModelи?, это чтобы реализовать ниже метод протокола LikesDelegate2to1 и установить лайк?
-            indexPath: indexPath
-        )
-    }
-
     // MARK: - Private methods
     /// [TicketForUI] -> [FlightTicket]
-    public func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД?
+    private func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД?
         var resultArray: [FlightTicket] = []
         for number in 0..<uiTickets.count {
             let newTicket = FlightTicket(
@@ -92,23 +92,63 @@ final class TicketsViewModel {
         return dateFormatter.date(from: fromString)
     }
 
+}
 
-    private func mockNetworkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
+// MARK: - NetworkAPIProtocol
+extension TicketsViewModel: NetworkAPIProtocol {
+
+    internal func networkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
         let networkQueue = DispatchQueue.global(qos: .utility)
-        networkQueue.async { //загружаем асинхронно
-            let networkManager = NetworkManager()
-            networkManager.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { [weak self] ticketsData in
+        networkQueue.async { [weak self] in //загружаем асинхронно
+            self?.networkManager = NetworkManager()
+            self?.networkManager?.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { [weak self] ticketsData in
                 if let flightTickets = self?.getTickets(uiTickets: ticketsData) {
                     DispatchQueue.main.async {
-                    //тут записываем в модель
+                        //тут записываем в модель
                         completion(flightTickets) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
                     }
                 }
             }
         }
     }
+// пробовал написать через async await, но получал ошибки в процессе загрузки APP
+//    internal func networkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
+//        Task { [weak self] in
+//            self?.networkManager = NetworkManager()
+//            try await self?.networkManager?.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { [weak self] ticketsData in
+//                if let flightTickets = self?.getTickets(uiTickets: ticketsData) {
+//                    completion(flightTickets) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
+//                }
+//            }
+//        }
+//    }
 
 }
+
+// MARK: - TicketsViewModelProtocol
+extension TicketsViewModel: TicketsViewModelProtocol {
+
+    func requestTickets() {
+        state = .loading ///в клоужер closureChangeState передается state - сказали - идет загрузка
+        networkAPI { tickets in ///как только придет массив билетов(из сети), тогда...б. массив билетов приняли от сетевого слоя
+            self.ticketsListModel = tickets ///. ...мы обновим модель данных (а до этого момента коллекция пустая) загруженными из сети данными
+            self.state = .loaded /// и пепердаем в клоужер closureChangeState state , чтобы он его принял и во VC совершил нужные дейстия согласно этому state
+        }
+    }
+
+    func didTapCell(indexPath: IndexPath) {
+        let model = ticketsListModel[indexPath.item]
+        /// VC в didSelectItemAt вызывает этот метод у ViewModel, а она в свою очередь говорит координатору - открой мне экран: (вызывает метод координатора - pushDetailsVC и передает в него следующие параметры)
+        coordinator?.pushDetailsVC(
+            model: model,
+            delegate: self, // зачем??...self это TicketsViewModel, т.е. TicketsViewModel - это делегат DetailsViewModelи?, это чтобы реализовать ниже метод протокола LikesDelegate2to1 и установить лайк?
+            indexPath: indexPath
+        )
+    }
+
+}
+
+
 
 // MARK: - LikesDelegate
 extension TicketsViewModel: LikesDelegate2to1 {
@@ -118,3 +158,5 @@ extension TicketsViewModel: LikesDelegate2to1 {
         state = .reloadItems(at: [indexPath])
     }
 }
+
+

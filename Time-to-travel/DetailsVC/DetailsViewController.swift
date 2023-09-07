@@ -10,7 +10,7 @@ import UIKit
 final class DetailsViewController: UIViewController {
 
     // MARK: - Private properties
-    private var viewModel: DetailsViewModel
+    private var viewModel: DetailsViewModelProtocol //protocolCoverage так надо делать??
 
     // MARK: - Subviews
     private lazy var ticketView: UIView = {
@@ -82,7 +82,7 @@ final class DetailsViewController: UIViewController {
 
 
     // MARK: - Init
-    init(viewModel: DetailsViewModel) {
+    init(viewModel: DetailsViewModelProtocol) { //protocolCoverage так надо делать??
         self.viewModel = viewModel //тк этого св-ва нет в суперклассе, то инициализируем его до super
         super.init(nibName: nil, bundle: nil)
     }
@@ -113,9 +113,7 @@ final class DetailsViewController: UIViewController {
     }
 
     private func bindViewModel() {
-        viewModel.closureChangeState = { [weak self] state in
-            guard let self else {return}
-
+        viewModel.closureChangeState = { state in
             switch state {
             case .none:
                 break
