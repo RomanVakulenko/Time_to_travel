@@ -11,16 +11,23 @@ protocol LikesDelegate2to1: AnyObject {
     func passLikeTo1vc(at indexPath: IndexPath)
 }
 
-final class DetailsViewModel {
-    // MARK: - Enum
-    enum DetailsState {
-        case none
-    }
+// MARK: - Enum
+enum DetailsState { //чтобы использовать в протоколе надо выносить в глобальный контекст??
+    case none
+}
+
+protocol DetailsViewModelProtocol: AnyObject { //protocolCoverage так надо делать??
+    var closureChangeState: ((DetailsState) -> Void)? { get set }
+    var oneTicketModel: FlightTicket { get set }
+    func didTapLikeButton()
+}
+
+final class DetailsViewModel: DetailsViewModelProtocol {
+
 
      // MARK: - Public properties
-    var closureChangeState: ((DetailsState)->Void)?
-
-    private(set) var oneTicketModel: FlightTicket
+    var closureChangeState: ((DetailsState) -> Void)?
+    internal var oneTicketModel: FlightTicket
 
 
     // MARK: - Private properties

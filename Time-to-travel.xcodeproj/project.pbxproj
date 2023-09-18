@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD1B7D402A9F8911008E0098 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */; };
+		AD1B7D422A9F9079008E0098 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D412A9F9078008E0098 /* Singleton.swift */; };
+		AD1B7D472AA0D4C9008E0098 /* TicketsDataForPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */; };
+		AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */; };
 		ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */; };
 		ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */; };
 		ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D00A2A84FD47005BCC73 /* TicketsViewController.swift */; };
@@ -26,6 +30,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		AD1B7D412A9F9078008E0098 /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
+		AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsDataForPeriod.swift; sourceTree = "<group>"; };
+		AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketForUI.swift; sourceTree = "<group>"; };
 		ADE1D0032A84FD47005BCC73 /* Time-to-travel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time-to-travel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +65,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD1B7D432A9F9080008E0098 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B7D412A9F9078008E0098 /* Singleton.swift */,
+				AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		ADE1CFFA2A84FD47005BCC73 = {
 			isa = PBXGroup;
 			children = (
@@ -77,13 +94,14 @@
 			isa = PBXGroup;
 			children = (
 				ADE1D0342A864D03005BCC73 /* Coordinator */,
-				ADE1D01E2A8500B3005BCC73 /* Application */,
-				ADE1D0262A850166005BCC73 /* Styles */,
-				ADE1D0252A850152005BCC73 /* Extensions */,
+				AD1B7D432A9F9080008E0098 /* Network */,
 				ADE1D0292A85019F005BCC73 /* Models */,
 				ADE1D01A2A84FFF0005BCC73 /* TicketsVC */,
 				ADE1D02E2A8501EB005BCC73 /* DetailsVC */,
 				ADE1D0312A850224005BCC73 /* Cells */,
+				ADE1D0252A850152005BCC73 /* Extensions */,
+				ADE1D01E2A8500B3005BCC73 /* Application */,
+				ADE1D0262A850166005BCC73 /* Styles */,
 				ADE1D01D2A85002A005BCC73 /* Resources */,
 			);
 			path = "Time-to-travel";
@@ -138,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				ADE1D0272A850197005BCC73 /* FlightTicket.swift */,
+				AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */,
+				AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -243,15 +263,19 @@
 				ADE1D0202A8500D9005BCC73 /* Styles.swift in Sources */,
 				ADE1D0362A864D33005BCC73 /* CoordinatorProtocol.swift in Sources */,
 				ADE1D02B2A8501CB005BCC73 /* DetailsViewController.swift in Sources */,
+				AD1B7D402A9F8911008E0098 /* NetworkManager.swift in Sources */,
 				ADE1D03A2A864D60005BCC73 /* TicketsCoordinator.swift in Sources */,
 				ADE1D0222A850116005BCC73 /* UIView + Extension.swift in Sources */,
 				ADE1D0242A85013E005BCC73 /* UILabel + Extension.swift in Sources */,
 				ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */,
+				AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */,
+				AD1B7D472AA0D4C9008E0098 /* TicketsDataForPeriod.swift in Sources */,
 				ADE1D0282A850197005BCC73 /* FlightTicket.swift in Sources */,
 				ADE1D02D2A8501DE005BCC73 /* DetailsViewModel.swift in Sources */,
 				ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */,
 				ADE1D0382A864D46005BCC73 /* MainCoordinator.swift in Sources */,
 				ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */,
+				AD1B7D422A9F9079008E0098 /* Singleton.swift in Sources */,
 				ADE1D0302A850215005BCC73 /* AirTicketCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,6 +418,7 @@
 				DEVELOPMENT_TEAM = 994K78QDG8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Time-to-travel/Resources/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -421,6 +446,7 @@
 				DEVELOPMENT_TEAM = 994K78QDG8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Time-to-travel/Resources/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
