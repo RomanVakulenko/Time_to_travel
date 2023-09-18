@@ -67,7 +67,7 @@ final class TicketsViewController: UIViewController {
 
     // MARK: - Lifecycle
     init(viewModel: TicketsViewModelProtocol) {
-        self.viewModel = viewModel // as! TicketsViewModel // ??force downCast требовался, когда viewModel: TicketsViewModel. Как-то иначе покрывают протоколами? Покрывать протоколами только при инъекции зависимостей или и свойства тоже (как viewModel выше)??
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -164,8 +164,7 @@ extension TicketsViewController: UICollectionViewDataSource {
             withReuseIdentifier: AirTicketCollectionViewCell.identifier,
             for: indexPath) as! AirTicketCollectionViewCell
 
-        cell.delegateSavingLikeWhenScroll = self ///1.0 делегатом будет этот VC, который будет обрабатывать функцию протокола (нажали лайк в коллекции и чтобы он при скролле не "обнулился")
-        let model = viewModel.ticketsListModel
+        let model = viewModel.ticketsListModel[indexPath.item]
         cell.set(model: model, at: indexPath)
         return cell
     }
@@ -206,13 +205,5 @@ extension TicketsViewController {
     }
 }
 
-// MARK: - ChangeStateIsLikeDelegate
-extension TicketsViewController: AntiScrollLikeDelegate {
-    ///1.4 пытаемся как-то изменить состояние isLike в model, чтобы поставив лайк и проскроллив, лайк бы остался (не сделано)
-    func protectLikeState(at indexPath: IndexPath) {
-//        var model = viewModel.ticketsListModel  //пытался оставить нажатым лайк в коллекции после скролла
-//        model[indexPath.item].isLike.toggle()
-    }
-}
 
 

@@ -12,7 +12,6 @@ protocol NetworkManagerProtocol: AnyObject {
     func fetchData(ticketsOptions: String, completion: @escaping ([TicketForUI]) -> Void) //async throws
 }
 
-
 final class NetworkManager {
 
     enum RequestErrors: String, Error {
@@ -37,14 +36,14 @@ final class NetworkManager {
             URLQueryItem(name: "page", value: "1"),
             URLQueryItem(name: "limit", value: "30"),
             URLQueryItem(name: "show_to_affiliates", value: "false"),
-            URLQueryItem(name: "token", value: Singleton.sharedInstance.token),
+            URLQueryItem(name: "token", value: Singleton1.token),
         ]
         guard let url = urlComponents.url else { throw RequestErrors.unableToCreateRequest }
         return URLRequest(url: url)
     }
-    //      http://api.travelpayouts.com/v2/prices/latest?currency=rub&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=price&token=8adf47e8d901e2a6f5b58897510f9cdb
+//http://api.travelpayouts.com/v2/prices/latest?currency=rub&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=price&token=8adf47e8d901e2a6f5b58897510f9cdb
 
-//
+
     private func parseJSON(withData data: Data) -> [TicketForUI]? {
 //        let dataFromTextJsonToDisplayMultipleFlights = textJsonToDisplayMultiple.data(using: .utf8) //чтобы провить показ нескольких билетов (иной раз запрос выдает по 1 билету)
         do {
@@ -59,7 +58,7 @@ final class NetworkManager {
 
 
     // MARK: - private method transforms TicketForUI -> [TicketForUI]
-    private func makeArrOfTicketsForUI(dataTickets: [TicketData]) -> [TicketForUI] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД?
+    private func makeArrOfTicketsForUI(dataTickets: [TicketData]) -> [TicketForUI] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД??
         var resultArray: [TicketForUI] = []
 
         for number in 0..<dataTickets.count {

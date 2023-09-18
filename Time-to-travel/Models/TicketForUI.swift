@@ -7,17 +7,14 @@
 
 import Foundation
 
-struct TicketForUI { //множественное число или единственное??
+struct TicketForUI { 
     var city1: String
     var city2: String
     var departureDateString: String
 //    var departureDate: Date {
-//        Date() //пока вопрос - надо ли декодировать в дату, если потом снова нужна строка...??
+//        Date() //пока вопрос - надо ли декодировать в дату, если потом снова нужна строка...?? Когда используют Date (а не string)? Ради отображения?
 //    }
     var arrivalDateString: String
-//    var arrivalDate: Date {
-//        Date() //пока вопрос - надо ли декодировать в дату, если потом снова нужна строка...??
-//    }
     var price: Int
 
     init(city1: String, city2: String, departureDateString: String, arrivalDateString: String, price: Int) {

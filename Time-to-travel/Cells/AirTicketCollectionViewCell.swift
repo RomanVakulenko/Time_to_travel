@@ -7,18 +7,7 @@
 
 import UIKit
 
-protocol AntiScrollLikeDelegate: AnyObject { ///1.0 нажали лайк в коллекции и чтобы он при скролле не "обнулился"
-    func protectLikeState(at indexPath: IndexPath)
-}
-
 final class AirTicketCollectionViewCell: UICollectionViewCell {
-
-    // MARK: - Public properties
-    ///1.0 нажали лайк в коллекции и чтобы он при скролле не "обнулился"
-    weak var delegateSavingLikeWhenScroll: AntiScrollLikeDelegate?
-    // MARK: - Private properties
-    ///1.0 нажали лайк в коллекции и чтобы он при скролле не "обнулился"
-    private var currentIndexPath: IndexPath?
 
     //MARK: - Subviews
     private let startImage: UIImageView = {
@@ -96,12 +85,10 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Public methods
     ///1.1 из коллекции пробрасываем IndexPath, чтобы   self.currentIndexPath = indexPath
-    func set(model: [FlightTicket], at indexPath: IndexPath) {
+    func set(model: FlightTicket, at indexPath: IndexPath) {
         let formatter = DateFormatter() ///когда будем писать сетевой слой - занести это в хелповую функцию
         formatter.dateStyle = .short
         formatter.locale = Locale(identifier: "ru_RU")
-
-        let model = model[indexPath.item]
 
         departureCity.text = "\(model.city1)"
         arrivalCity.text = "\(model.city2)"
@@ -114,8 +101,6 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
         } else {
             likes.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        ///1.2 из коллекции пробрасываем IndexPath, чтобы передать его делегату
-        self.currentIndexPath = indexPath
     }
 
     // MARK: - Private methods
@@ -163,7 +148,7 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
     // MARK: - Actions
     @objc func tapAtLike(_ sender: UIButton) {
 
-//#error("как отсюда забрать состояние лайка и передать его в модель, чтобы при скролле лайк не терялся") ??
+//#error("как отсюда забрать состояние лайка и передать его в модель, чтобы при скролле лайк не терялся") ?? см встречу - возможно иначе
         if likes.currentImage == UIImage(systemName: "heart") {
             likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)
 
@@ -171,9 +156,6 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
             likes.setImage(UIImage(systemName: "heart"), for: .normal)
         }
 
-        guard let indexPath = currentIndexPath else { return }
-        ///1.3 делегату говорим, что изменилось состояние по indexPath
-        delegateSavingLikeWhenScroll?.protectLikeState(at: indexPath)
     }
 }
 

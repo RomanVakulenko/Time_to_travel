@@ -52,7 +52,7 @@ final class TicketsViewModel {
 
     // MARK: - Private properties
     private weak var coordinator: TicketsCoordinator?
-    private var networkManager: NetworkManagerProtocol? // ??убрал weak; если weak,ТО на 98стр xCode писал, что Instance will be immediately deallocated because property 'networkManager' is 'weak' //protocolCoverage так надо делать??
+    private var networkManager: NetworkManagerProtocol? // ??убрал weak; если weak,ТО на 98стр xCode писал, что Instance will be immediately deallocated because property 'networkManager' is 'weak' //protocolCoverage так надо делать?
 
     private var state: State = .none { ///none - т.к. пока не значем что будет происходить, а каждый раз как будем изменять State - будем вызывать клоужер
         didSet {
@@ -67,7 +67,7 @@ final class TicketsViewModel {
 
     // MARK: - Private methods
     /// [TicketForUI] -> [FlightTicket]
-    private func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД?
+    private func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД??
         var resultArray: [FlightTicket] = []
         for number in 0..<uiTickets.count {
             let newTicket = FlightTicket(
@@ -98,20 +98,20 @@ final class TicketsViewModel {
 extension TicketsViewModel: NetworkAPIProtocol {
 
     internal func networkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
-        let networkQueue = DispatchQueue.global(qos: .utility)
-        networkQueue.async { [weak self] in //загружаем асинхронно
+        let networkConcurrentQueue = DispatchQueue(label: "networkConcurrentQueue", qos: .userInitiated, attributes: .concurrent) //т.к. global очереди системные и загрузив их еще можем потерять скорость - потому своя конкурентная очередь
+
+        networkConcurrentQueue.async { [weak self] in //загружаем асинхронно
             self?.networkManager = NetworkManager()
-            self?.networkManager?.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { [weak self] ticketsData in
+            self?.networkManager?.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { ticketsData in
                 if let flightTickets = self?.getTickets(uiTickets: ticketsData) {
-                    DispatchQueue.main.async {
-                        //тут записываем в модель
+                    DispatchQueue.main.async {// возвращаем в UI - т.е. на главный поток
                         completion(flightTickets) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
                     }
                 }
             }
         }
     }
-// пробовал написать через async await, но получал ошибки в процессе загрузки APP
+// пробовал написать через async await, но получал ошибки в процессе загрузки APP, связанные с главным потоком
 //    internal func networkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
 //        Task { [weak self] in
 //            self?.networkManager = NetworkManager()
@@ -141,7 +141,7 @@ extension TicketsViewModel: TicketsViewModelProtocol {
         /// VC в didSelectItemAt вызывает этот метод у ViewModel, а она в свою очередь говорит координатору - открой мне экран: (вызывает метод координатора - pushDetailsVC и передает в него следующие параметры)
         coordinator?.pushDetailsVC(
             model: model,
-            delegate: self, // зачем??...self это TicketsViewModel, т.е. TicketsViewModel - это делегат DetailsViewModelи?, это чтобы реализовать ниже метод протокола LikesDelegate2to1 и установить лайк?
+            delegate: self, // зачем?? TicketsViewModel - делегат DetailsViewModelи, чтобы реализовать ниже метод протокола LikesDelegate2to1 и установить лайк?
             indexPath: indexPath
         )
     }
