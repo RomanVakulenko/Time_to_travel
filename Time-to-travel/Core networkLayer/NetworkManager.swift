@@ -14,13 +14,6 @@ protocol NetworkManagerProtocol: AnyObject {
 
 final class NetworkManager {
 
-    enum RequestErrors: String, Error {
-        case noData
-        case noToken
-        case unableToCreateRequest
-        case unableToCreateURL
-    }
-
     // MARK: - Private properties
     private let decoder = JSONDecoder()
 
@@ -38,7 +31,7 @@ final class NetworkManager {
             URLQueryItem(name: "show_to_affiliates", value: "false"),
             URLQueryItem(name: "token", value: Singleton1.token),
         ]
-        guard let url = urlComponents.url else { throw RequestErrors.unableToCreateRequest }
+        guard let url = urlComponents.url else { throw RouterErrors.unableToCreateRequest }
         return URLRequest(url: url)
     }
 //http://api.travelpayouts.com/v2/prices/latest?currency=rub&period_type=year&page=1&limit=30&show_to_affiliates=true&sorting=price&token=8adf47e8d901e2a6f5b58897510f9cdb
@@ -89,12 +82,12 @@ extension NetworkManager: NetworkManagerProtocol {
             }
             task.resume()
 
-        } catch RequestErrors.noData {
-            print(RequestErrors.noData.rawValue)
-        } catch RequestErrors.noToken {
-            print(RequestErrors.noToken.rawValue)
-        } catch RequestErrors.unableToCreateRequest {
-            print(RequestErrors.unableToCreateRequest.rawValue)
+        } catch RouterErrors.noData {
+            print(RouterErrors.noData.rawValue)
+        } catch RouterErrors.noToken {
+            print(RouterErrors.noToken.rawValue)
+        } catch RouterErrors.unableToCreateRequest {
+            print(RouterErrors.unableToCreateRequest.rawValue)
         } catch {
             print( "что-то неизвестное")
         }

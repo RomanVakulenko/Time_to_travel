@@ -83,14 +83,14 @@ final class TicketsViewModel {
         return resultArray
     }
 
-    /// dateFormatter (String) -> Date
-    private func getDate(fromString: String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.locale = Locale.current
-        return dateFormatter.date(from: fromString)
-    }
+//    /// dateFormatter (String) -> Date
+//    private func getDate(fromString: String) -> Date? {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.locale = Locale.current
+//        return dateFormatter.date(from: fromString)
+//    }
 
 }
 
@@ -100,10 +100,11 @@ extension TicketsViewModel: NetworkAPIProtocol {
     internal func networkAPI(completion: @escaping ([FlightTicket]) -> Void) { //сетевой слой
         let networkConcurrentQueue = DispatchQueue(label: "networkConcurrentQueue", qos: .userInitiated, attributes: .concurrent) //т.к. global очереди системные и загрузив их еще можем потерять скорость - потому своя конкурентная очередь
 
-        networkConcurrentQueue.async { [weak self] in //загружаем асинхронно
+        networkConcurrentQueue.async { [weak self] in //загружаем асинхронно //нужен ли weak self??утечка?? или нет, потому что кложур не
             self?.networkManager = NetworkManager()
+            //поскольку URLSession работает асинхронно, то вызов dataTask не надо заворачивать в еще какую-то очередь //удалить созданную networkConcurrentQueue очередь??
             self?.networkManager?.fetchData(ticketsOptions: Tickets.forPeriod.rawValue) { ticketsData in
-                if let flightTickets = self?.getTickets(uiTickets: ticketsData) {
+                if let flightTickets = self?.getTickets(uiTickets: ticketsData) { //нужен ли нужен ли weak self??утечка??
                     DispatchQueue.main.async {// возвращаем в UI - т.е. на главный поток
                         completion(flightTickets) ///т.к. этот метод будет вызван в итоге во VC, то надо вернуть в главный поток; а. передали в клоужер массив билетов
                     }
