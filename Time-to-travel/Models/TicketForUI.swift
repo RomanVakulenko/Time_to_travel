@@ -11,10 +11,7 @@ struct TicketForUI {
     var city1: String
     var city2: String
     var departureDateString: String
-//    var departureDate: Date {
-//        Date() //пока вопрос - надо ли декодировать в дату, если потом снова нужна строка...?? Когда используют Date (а не string)? Ради отображения?
-//    }
-    var arrivalDateString: String
+    var arrivalDateString: String 
     var price: Int
 
     init(city1: String, city2: String, departureDateString: String, arrivalDateString: String, price: Int) {
