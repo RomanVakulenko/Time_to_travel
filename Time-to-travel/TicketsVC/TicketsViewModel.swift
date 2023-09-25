@@ -39,11 +39,6 @@ protocol TicketsViewModelProtocol: TicketsViewModelRequestProtocol, TicketsViewM
 
 final class TicketsViewModel {
 
-   private enum Tickets: String {
-        case forPeriod = "/v2/prices/latest" //Цены на авиабилеты за период
-        case fakeRequest = "fakeURLPath"
-    }
-
     // MARK: - Public properties
     ///благодаря клоужеру мы bindимся (в связи - bind вся суть MVVM )
     var closureChangeState: ((State) -> Void)?
@@ -67,7 +62,7 @@ final class TicketsViewModel {
 
     // MARK: - Private methods
     /// [TicketForUI] -> [FlightTicket]
-    private func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //ГДЕ ЛУЧШЕ РАЗМЕЩАТЬ ЭТОТ МЕТОД??
+    private func getTickets(uiTickets: [TicketForUI]) -> [FlightTicket] { //попробую отказаться от изначальной структуры в пользу TicketForUI
         var resultArray: [FlightTicket] = []
         for number in 0..<uiTickets.count {
             let newTicket = FlightTicket(
@@ -82,15 +77,6 @@ final class TicketsViewModel {
         }
         return resultArray
     }
-
-//    /// dateFormatter (String) -> Date
-//    private func getDate(fromString: String) -> Date? {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        dateFormatter.timeZone = TimeZone.current
-//        dateFormatter.locale = Locale.current
-//        return dateFormatter.date(from: fromString)
-//    }
 
 }
 

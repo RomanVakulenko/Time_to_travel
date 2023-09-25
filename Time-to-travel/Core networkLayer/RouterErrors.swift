@@ -7,9 +7,16 @@
 
 import Foundation
 
-enum RouterErrors: String, Error {
-    case noData = "Data are nill"
-    case noToken
+enum RouterErrors: Error, CustomStringConvertible {
+    case noData(reason: String)
     case unableToCreateRequest
-    case unableToCreateURL
+    
+    var description: String {
+        switch self {
+        case .noData(let reason):
+            return reason
+        case .unableToCreateRequest:
+            return "unableToCreateRequest"
+        }
+    }
 }

@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		AD1B7D402A9F8911008E0098 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */; };
 		AD1B7D422A9F9079008E0098 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D412A9F9078008E0098 /* Singleton.swift */; };
-		AD1B7D472AA0D4C9008E0098 /* TicketsDataForPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */; };
+		AD1B7D472AA0D4C9008E0098 /* TicketsDecoded.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D462AA0D4C9008E0098 /* TicketsDecoded.swift */; };
 		AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */; };
 		ADB923BE2AB85EBC00B3DD78 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB923BD2AB85EBC00B3DD78 /* Mapper.swift */; };
 		ADB923C02AB85ED600B3DD78 /* RouterErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB923BF2AB85ED600B3DD78 /* RouterErrors.swift */; };
 		ADC58D572ABD73EB00961170 /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D562ABD73EB00961170 /* NetworkRouter.swift */; };
 		ADC58D592ABD884900961170 /* MapperError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D582ABD884800961170 /* MapperError.swift */; };
+		ADC58D5C2ABEBC8D00961170 /* NetWorkManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D5B2ABEBC8D00961170 /* NetWorkManagerErrors.swift */; };
+		ADC58D5E2AC1912400961170 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D5D2AC1912400961170 /* DateManager.swift */; };
 		ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */; };
 		ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */; };
 		ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D00A2A84FD47005BCC73 /* TicketsViewController.swift */; };
@@ -36,12 +38,14 @@
 /* Begin PBXFileReference section */
 		AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AD1B7D412A9F9078008E0098 /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
-		AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsDataForPeriod.swift; sourceTree = "<group>"; };
+		AD1B7D462AA0D4C9008E0098 /* TicketsDecoded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsDecoded.swift; sourceTree = "<group>"; };
 		AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketForUI.swift; sourceTree = "<group>"; };
 		ADB923BD2AB85EBC00B3DD78 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 		ADB923BF2AB85ED600B3DD78 /* RouterErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterErrors.swift; sourceTree = "<group>"; };
 		ADC58D562ABD73EB00961170 /* NetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRouter.swift; sourceTree = "<group>"; };
 		ADC58D582ABD884800961170 /* MapperError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperError.swift; sourceTree = "<group>"; };
+		ADC58D5B2ABEBC8D00961170 /* NetWorkManagerErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkManagerErrors.swift; sourceTree = "<group>"; };
+		ADC58D5D2AC1912400961170 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		ADE1D0032A84FD47005BCC73 /* Time-to-travel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time-to-travel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,9 +85,26 @@
 				ADB923BF2AB85ED600B3DD78 /* RouterErrors.swift */,
 				ADB923BD2AB85EBC00B3DD78 /* Mapper.swift */,
 				ADC58D582ABD884800961170 /* MapperError.swift */,
-				AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */,
 			);
 			path = "Core networkLayer";
+			sourceTree = "<group>";
+		};
+		ADC58D5A2ABEB2D600961170 /* BusinessLayer */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */,
+				ADC58D5B2ABEBC8D00961170 /* NetWorkManagerErrors.swift */,
+				ADC58D5F2AC191FF00961170 /* Helper */,
+			);
+			path = BusinessLayer;
+			sourceTree = "<group>";
+		};
+		ADC58D5F2AC191FF00961170 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				ADC58D5D2AC1912400961170 /* DateManager.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		ADE1CFFA2A84FD47005BCC73 = {
@@ -106,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				ADE1D0342A864D03005BCC73 /* Coordinator */,
+				ADC58D5A2ABEB2D600961170 /* BusinessLayer */,
 				AD1B7D432A9F9080008E0098 /* Core networkLayer */,
 				ADE1D0292A85019F005BCC73 /* Models */,
 				ADE1D01A2A84FFF0005BCC73 /* TicketsVC */,
@@ -168,7 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				ADE1D0272A850197005BCC73 /* FlightTicket.swift */,
-				AD1B7D462AA0D4C9008E0098 /* TicketsDataForPeriod.swift */,
+				AD1B7D462AA0D4C9008E0098 /* TicketsDecoded.swift */,
 				AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */,
 			);
 			path = Models;
@@ -283,11 +305,13 @@
 				ADE1D0242A85013E005BCC73 /* UILabel + Extension.swift in Sources */,
 				ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */,
 				AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */,
-				AD1B7D472AA0D4C9008E0098 /* TicketsDataForPeriod.swift in Sources */,
+				AD1B7D472AA0D4C9008E0098 /* TicketsDecoded.swift in Sources */,
+				ADC58D5E2AC1912400961170 /* DateManager.swift in Sources */,
 				ADB923C02AB85ED600B3DD78 /* RouterErrors.swift in Sources */,
 				ADE1D0282A850197005BCC73 /* FlightTicket.swift in Sources */,
 				ADE1D02D2A8501DE005BCC73 /* DetailsViewModel.swift in Sources */,
 				ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */,
+				ADC58D5C2ABEBC8D00961170 /* NetWorkManagerErrors.swift in Sources */,
 				ADC58D592ABD884900961170 /* MapperError.swift in Sources */,
 				ADE1D0382A864D46005BCC73 /* MainCoordinator.swift in Sources */,
 				ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */,

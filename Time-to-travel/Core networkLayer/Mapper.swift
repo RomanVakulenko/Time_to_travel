@@ -27,7 +27,7 @@ final class DataMapper {
         return decoder
     }()
 
-    private let concurrentQueque = DispatchQueue(label: "concurrentForParsing", qos: .utility, attributes: .concurrent)
+    private let concurrentQueque = DispatchQueue(label: "concurrentForParsing", qos: .userInitiated, attributes: .concurrent)
 }
 
 
@@ -43,7 +43,7 @@ extension DataMapper: Mapper {
             }
             catch {
                 DispatchQueue.main.async {
-                    completion(.failure(.cantParse))
+                    completion(.failure(.failParsed(reason: "ошибка декодирования")))
                 }
             }
         }

@@ -7,6 +7,13 @@
 
 import Foundation
 
-enum MapperError: String, Error {
-    case cantParse = "cantParse"
+enum MapperError: Error, CustomStringConvertible {
+    case failParsed(reason: String)
+
+    var description: String {
+        switch self {
+        case .failParsed(let reason):
+            return reason
+        }
+    }
 }

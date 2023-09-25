@@ -30,7 +30,7 @@ extension NetworkRouter: NetworkProtocol {
             }
 
             guard let data = data else {
-                DispatchQueue.main.async { completion(.failure(RouterErrors.noData)) }
+                DispatchQueue.main.async { completion(.failure(RouterErrors.noData(reason: "нет данных"))) }
                 return
             }
             DispatchQueue.main.async { completion(.success(data)) }

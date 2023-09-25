@@ -1,5 +1,5 @@
 //
-//  TicketsDataForPeriod.swift
+//  TicketsDecoded.swift
 //  Time-to-travel
 //
 //  Created by Roman Vakulenko on 31.08.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TicketsDataForPeriod: Decodable { //структура в которую декодируем JSON
+struct TicketsDecoded: Decodable { //структура в которую декодируем JSON
     let data: [TicketData]
 }
 
