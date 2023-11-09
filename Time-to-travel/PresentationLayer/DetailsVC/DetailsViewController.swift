@@ -10,7 +10,7 @@ import UIKit
 final class DetailsViewController: UIViewController {
 
     // MARK: - Private properties
-    private var viewModel: DetailsViewModelProtocol //protocolCoverage так надо делать??
+    private var viewModel: DetailsViewModelProtocol
 
     // MARK: - Subviews
     private lazy var ticketView: UIView = {
@@ -80,10 +80,9 @@ final class DetailsViewController: UIViewController {
         return likes
     }()
 
-
     // MARK: - Init
-    init(viewModel: DetailsViewModelProtocol) { //protocolCoverage так надо делать??
-        self.viewModel = viewModel //тк этого св-ва нет в суперклассе, то инициализируем его до super
+    init(viewModel: DetailsViewModelProtocol) {
+        self.viewModel = viewModel // тк св-ва нет в суперклассе => инициализируем его до super
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -96,7 +95,6 @@ final class DetailsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
-        bindViewModel()
         setTicketInfo()
     }
 
@@ -112,28 +110,15 @@ final class DetailsViewController: UIViewController {
         [startImage, finishImage, departureCity, arrivalCity, atDate, landingDate, price, likes].forEach { ticketView.addSubview($0) }
     }
 
-    private func bindViewModel() {
-        viewModel.closureChangeState = { state in
-            switch state {
-            case .none:
-                break
-            }
-        }
-    }
-
     private func setTicketInfo() {
-        let formatter = DateFormatter() //когда будем писать сетевой слой - занести это в хелповую функцию
-        formatter.dateStyle = .short
-        formatter.locale = Locale(identifier: "ru_RU")
-
         let model = viewModel.oneTicketModel
 
         departureCity.text = "\(model.city1)"
         arrivalCity.text = "\(model.city2)"
-        atDate.text = "At \(formatter.string(from: model.departureDate))"
-        landingDate.text = "At \(formatter.string(from: model.arrivalDate))"
+        atDate.text = "At \(DateManager.createStringFromDate(model.departureDate, andFormatTo: "dd.MM.yyyy"))"
+        landingDate.text = "At \(DateManager.createStringFromDate(model.arrivalDate, andFormatTo: "dd.MM.yyyy"))"
         price.text = "Price: \(String(model.price)) rub"
-
+        /// просто отрисовка лайка
         if model.isLike == true {
             likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
@@ -141,7 +126,7 @@ final class DetailsViewController: UIViewController {
         }
     }
 
-    private func setupConstraints(){
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             ticketView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             ticketView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -181,23 +166,21 @@ final class DetailsViewController: UIViewController {
     }
 
     // MARK: - Actions
-
-    @objc func tapAtLike(_ sender: UIButton) {
+    @objc func tapAtLike(_ button: UIButton) {
         var model = viewModel.oneTicketModel
 
         if likes.imageView?.image == UIImage(systemName: "heart") {
-            model.isLike = true ///меняем состояние лайка в модели
-            likes.setImage(UIImage(systemName: "heart.fill"), for: .normal) /// на текущем устанавливаем heart.fill
+            model.isLike = true
+            Animate.like(button)
         } else {
-            model.isLike = false ///меняем состояние лайка в модели
-            likes.setImage(UIImage(systemName: "heart"), for: .normal) /// на текущем устанавливаем heart
+            model.isLike = false
+            Animate.dislike(button)
         }
-
-        viewModel.didTapLikeButton()
+        print("Detail like is - \(model.isLike)")
+        viewModel.didTapLikeButton(changedLike: model.isLike)
     }
 
 }
-
 
 // MARK: - Constants
 extension DetailsViewController {
@@ -205,7 +188,3 @@ extension DetailsViewController {
         static let heartSize: CGFloat = 36
     }
 }
-
-
-
-

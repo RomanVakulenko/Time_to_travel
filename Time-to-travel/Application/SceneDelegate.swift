@@ -10,12 +10,12 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var mainCoordinator: CoordinatorProtocol? ///чтобы сохранялась связь после выхода из области видимости
+    var mainCoordinator: CoordinatorProtocol? /// чтобы сохранялась связь после выхода из области видимости
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
         guard let scene = scene as? UIWindowScene else { return }
-        
+
         let window = UIWindow(windowScene: scene)
         let mainCoordinator = MainCoordinator()
         window.rootViewController = mainCoordinator.start()
@@ -76,6 +76,3 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        return tabBarController
 //    }
 }
-
-
-

@@ -86,6 +86,8 @@ final class TicketsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
+//        collectionView.reloadData()
+//        print("TicketsVC appeared, код, который надо выполнять каждый раз при показе VC")
     }
 
     // MARK: - Private methods
@@ -119,9 +121,11 @@ final class TicketsViewController: UIViewController {
             case .reloadItems(let indexPaths):
                 collectionView.reloadItems(at: indexPaths)
 
-            case .wrong(errorDescription: let errorDescription):
-                ()
-                // произошла ошибка
+            case .wrong(let alertTextForUser):
+                DispatchQueue.main.async {
+                    Alert.showToUser(atVC: self, errorDescriptionToUser: alertTextForUser)
+                    print(alertTextForUser)
+                }
             }
         }
     }
@@ -160,17 +164,24 @@ extension TicketsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: AirTicketCollectionViewCell.identifier,
-            for: indexPath) as! AirTicketCollectionViewCell
+            for: indexPath) as? AirTicketCollectionViewCell else {
+            print("smth wrong with cell")
+            return UICollectionViewCell()
+        }
 
         let model = viewModel.ticketsListModel[indexPath.item]
-        cell.set(model: model, at: indexPath)
+        cell.set(model: model)
+        ///нажали лайк в ячейке и прокидываем его во viewModel, а она через координатор на 2ой экран
+        cell.likeFromCellClosure = { [weak self] isLiked in
+                self?.viewModel.updateLikeState(isLiked, at: indexPath)
+        }
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.didTapCell(indexPath: indexPath) ///сообщаем viewModelи, что произошло нажатие
+        viewModel.didTapCell(at: indexPath) ///сообщаем viewModelи, что нажали на ячейку
     }
 }
 
@@ -204,6 +215,3 @@ extension TicketsViewController {
         static let inset: CGFloat = 8
     }
 }
-
-
-

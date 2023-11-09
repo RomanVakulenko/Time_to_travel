@@ -7,46 +7,76 @@
 
 import Foundation
 
-typealias MapperCompletion<T: Decodable> = (Result<T, MapperError>) -> Void
-
-protocol Mapper {
-    func decode<T: Decodable> (from data: Data, toTicketStruct: T.Type, completion: @escaping MapperCompletion<T>)
+protocol MapperProtocol {
+    func decode<T: Decodable> (from data: Data, toStruct: T.Type) throws -> T
 }
-
 
 final class DataMapper {
 
     private lazy var decoder: JSONDecoder = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd" //"yyyy-MM-dd HH:mm:ss ZZZZ zzz" -> "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.locale = Locale.current
-
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
 
-    private let concurrentQueque = DispatchQueue(label: "concurrentForParsing", qos: .userInitiated, attributes: .concurrent)
 }
 
-
 // MARK: - Extensions
-extension DataMapper: Mapper {
-    func decode<T>(from data: Data, toTicketStruct: T.Type, completion: @escaping MapperCompletion<T>) where T : Decodable {
-        concurrentQueque.async {
-            do {
-                let parsedTickets = try self.decoder.decode(toTicketStruct, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(parsedTickets))
-                }
-            }
-            catch {
-                DispatchQueue.main.async {
-                    completion(.failure(.failParsed(reason: "ошибка декодирования")))
-                }
-            }
+extension DataMapper: MapperProtocol {
+    // вариант для async await подхода
+    func decode<T: Decodable> (from data: Data, toStruct: T.Type) throws -> T {
+    // у NetworkManager уже есть func getTicketsData() ASYNC (NetworkManager у экземпляра маппера вызывает этот метод) - надо ли тогда текущий метод маппера делать async ?? Почему?
+        do {
+            let decodedModel = try self.decoder.decode(toStruct, from: data)
+            return decodedModel
+        } catch let error as DecodingError {
+            // Чтобы узнать место появления ошибки так делают??
+            let errorLocation = "in File: \(#file), at Line: \(#line), Column: \(#column)"
+            throw MapperError.failParsed(reason: "\(error), \(errorLocation)")
+        } catch {
+            print("Unknown error have been caught in File: \(#file), at Line: \(#line), Column: \(#column)")
+            throw error
         }
     }
 
 }
+
+// GCD + completion generic and result
+// typealias MapperCompletion<T: Decodable> = (Result<T, MapperError>) -> Void
+//
+// protocol MapperProtocol {
+//    func decode<T: Decodable> (from data: Data, toStruct: T.Type, completion: @escaping MapperCompletion<T>)
+// }
+//
+//
+// final class DataMapper {
+//
+//    private lazy var decoder: JSONDecoder = {
+//        let decoder = JSONDecoder()
+//        decoder.keyDecodingStrategy = .convertFromSnakeCase
+//        return decoder
+//    }()
+//
+//    private let concurrentQueque = DispatchQueue(label: "concurrentForParsing", qos: .userInitiated, attributes: .concurrent)
+// }
+//
+//
+// MARK: - Extensions
+// extension DataMapper: MapperProtocol {
+//    func decode<T>(from data: Data, toStruct: T.Type, completion: @escaping MapperCompletion<T>) where T : Decodable {
+//        concurrentQueque.async {
+//            do {
+//                let parsedTickets = try self.decoder.decode(toStruct, from: data)
+//                DispatchQueue.main.async {
+//                    completion(.success(parsedTickets))
+//                }
+//            }
+//            catch {
+//                DispatchQueue.main.async {
+//                    completion(.failure(.failParsed(reason: "ошибка декодирования")))
+//                }
+//            }
+//        }
+//    }
+//
+// }

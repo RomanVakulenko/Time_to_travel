@@ -19,18 +19,21 @@ final class TicketsCoordinator {
     }
 
     // MARK: - Private methods
-    private func makeTicketsVC() -> UIViewController {
-        let viewModel = TicketsViewModel(coordinator: self)
+    private func createTicketsVC() -> UIViewController {
+        let networkManager = NetworkManager(networkRouter: NetworkRouter(), mapper: DataMapper())
+        let dataTransformer = DataTransformer(networkManager: networkManager)
+        let viewModel = TicketsViewModel(coordinator: self, dataTransformer: dataTransformer)
+
         let ticketsVC = TicketsViewController(viewModel: viewModel)
         let navController = UINavigationController(rootViewController: ticketsVC)
         navigationController = navController
         return navigationController
     }
 
-    private func makeDetailsVC(model: FlightTicket, delegate: LikesDelegate2to1, indexPath: IndexPath) -> UIViewController {
+    private func createDetailsVC(model: TicketForUI, likeDelegate2to1: LikeDelegate2to1, indexPath: IndexPath) -> UIViewController {
         let detailsViewModel = DetailsViewModel(
-            ticketModel: model,
-            delegate: delegate, //зачем тут указывать делегата??
+            detailTicketModel: model,
+            delegate: likeDelegate2to1, // 7 для передачи лайка
             indexPath: indexPath
         )
         let detailVC = DetailsViewController(viewModel: detailsViewModel)
@@ -43,13 +46,12 @@ final class TicketsCoordinator {
 // MARK: - CoordinatorProtocol
 extension TicketsCoordinator: CoordinatorProtocol {
     func start() -> UIViewController {
-        let vc = makeTicketsVC()
+        let vc = createTicketsVC()
         return vc
     }
-    /// когда во VC нажмем на ячейку, то вызываем viewModel.didTapCell(indexPath: indexPath), и тогда  viewModel у себя в didTapCell требует TicketsCoordinator'а запушить-открыть DetailsVC
-    func pushDetailsVC(model: FlightTicket, delegate: LikesDelegate2to1, indexPath: IndexPath) {
-        let vc = makeDetailsVC(model: model, delegate: delegate, indexPath: indexPath) //зачем делегат??
+    /// когда во VC нажмем на ячейку, то вызываем viewModel.didTapCell(indexPath: indexPath), и тогда  viewModel у себя в didTapCell требует TicketsCoordinator'а запушить-открыть DetailsVC:
+    func pushDetailsVC(model: TicketForUI, delegateLike2to1: LikeDelegate2to1, indexPath: IndexPath) {
+        let vc = createDetailsVC(model: model, likeDelegate2to1: delegateLike2to1, indexPath: indexPath)
         navigationController.pushViewController(vc, animated: true)
     }
 }
-

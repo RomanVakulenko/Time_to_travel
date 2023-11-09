@@ -8,15 +8,19 @@
 import Foundation
 
 enum RouterErrors: Error, CustomStringConvertible {
-    case noData(reason: String)
-    case unableToCreateRequest
-    
+    case badURL
+    case noInternetConnection
+    case serverErrorWith(_ statusCode: Int)
+
     var description: String {
         switch self {
-        case .noData(let reason):
-            return reason
-        case .unableToCreateRequest:
-            return "unableToCreateRequest"
+        case .badURL:
+            return "Invalid URL"
+        case .noInternetConnection:
+            return "Нет соединения с интернетом"
+        case .serverErrorWith(let statusCode):
+            print(statusCode)
+            return "Bad status code - \(statusCode)"
         }
     }
 }

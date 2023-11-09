@@ -18,4 +18,3 @@ enum Styles {
     static let regularFont: UIFont = UIFont.systemFont(ofSize: 17, weight: .regular)
     static let littleFont: UIFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
 }
-
