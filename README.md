@@ -6,10 +6,11 @@
 - can open details screen
 
 **Stack** 
-- MVVM + Coordinator, async await (GCD commented)
-- URLSessionConfiguration, Generic for Mapper, on Protocols
+- MVVM + Coordinator, async await (GCD commented),
+- Aviasales API, URLSessionConfiguration,
+- EndPont, Error handling (throws, catches), Alerts
+- Generic for Mapper, Protocols, Delegate
 - Collection, Custom Cell, Like/dislike animation, Singleton
-- Delegate, EndPont, Error handling (throws, catches), Alerts
 
 
 <img src="https://github.com/RomanVakulenko/Habits/assets/97017715/da1cb7d6-381d-46c2-9b8d-9e64773bad7e" width="240">
