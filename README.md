@@ -7,7 +7,7 @@
 
 **Stack** 
 - MVVM + Coordinator, async await (GCD commented)
-- Generic for Mapper, on Protocols
+- URLSessionConfiguration, Generic for Mapper, on Protocols
 - Collection, Custom Cell, Like/dislike animation, Singleton
 - Delegate, EndPont, Error handling (throws, catches), Alerts
 
