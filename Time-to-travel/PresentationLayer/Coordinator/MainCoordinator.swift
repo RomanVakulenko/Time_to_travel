@@ -11,17 +11,18 @@ import UIKit
 final class MainCoordinator {
 
     // MARK: - Private properties
-    private var childCoordinator: [CoordinatorProtocol] = [] /// хранит ссылки на координаторы, иначе при выходе из области видимости функции start потеряем ссылки на координаторов (когда main создает дочерние или дочерние создают еще свои дочерние)
+    /// хранит ссылки на координаторы, иначе при выходе из области видимости функции start потеряем ссылки на координаторов (когда main создает дочерние или дочерние создают еще свои дочерние)
+    private var childCoordinator: [CoordinatorProtocol] = []
 
     // MARK: - Private methods
     private func makeTicketsCoordinator() -> CoordinatorProtocol { /// т.к. координатор может состоять из кучи объектов, то лучше обернуть в метод
         let coordinator1VC = TicketsCoordinator(navigationController: UINavigationController()) /// создали координатор c navController
         return coordinator1VC
     }
-
-    private func addChildCoordinator(_ coordinator1VC: CoordinatorProtocol) {
-        guard !childCoordinator.contains(where: { $0 === coordinator1VC }) else { return } /// сравниваем адреса памяти, ссылается ли объект на тот же адрес памяти (т.е. до тех пор пока координаторов нет - добавляй их)
-        childCoordinator.append(coordinator1VC)
+    /// сравниваем адреса памяти, ссылается ли объект на тот же адрес памяти (т.е. до тех пор пока координаторов нет - добавляй их)
+    private func addChildCoordinator(_ coordinator: CoordinatorProtocol) {
+        guard !childCoordinator.contains(where: { $0 === coordinator }) else { return }
+        childCoordinator.append(coordinator)
     }
 
 }

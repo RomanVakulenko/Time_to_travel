@@ -13,7 +13,7 @@ protocol NetworkManagerProtocol: AnyObject {
     func getDecodedModel<T: Decodable> (using url: URL, model: T.Type) async throws -> T
 }
 
-final class NetworkManager { // только скачивает и декодирует JSON в struct
+final class NetworkManager { // скачивает и декодирует JSON в struct
 
     // MARK: - Private properties
     private let networkRouter: NetworkRouterProtocol

@@ -152,10 +152,10 @@
 		ADE1D0052A84FD47005BCC73 /* Time-to-travel */ = {
 			isa = PBXGroup;
 			children = (
+				ADE1D01E2A8500B3005BCC73 /* Application */,
 				ADBF52052ACC59E9008E119C /* PresentationLayer */,
 				ADC58D5A2ABEB2D600961170 /* BusinessLayer */,
 				AD1B7D432A9F9080008E0098 /* Core networkLayer */,
-				ADE1D01E2A8500B3005BCC73 /* Application */,
 				ADE1D01D2A85002A005BCC73 /* Resources */,
 			);
 			path = "Time-to-travel";

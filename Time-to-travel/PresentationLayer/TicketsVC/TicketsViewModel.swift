@@ -8,9 +8,9 @@
 import Foundation
 
 // MARK: - Protocols
-protocol NetworkAPIProtocol: AnyObject {
-    func getTicketsUsingAPI() async throws -> [TicketForUI]
-}
+//protocol NetworkAPIProtocol: AnyObject {
+//    func getTicketsUsingAPI() async throws -> [TicketForUI]
+//}
 
 protocol TicketsViewModelProtocol: AnyObject {
     var closureChangeState: ((TicketsViewModel.State) -> Void)? { get set }
@@ -24,7 +24,7 @@ protocol TicketsViewModelProtocol: AnyObject {
 final class TicketsViewModel {
 
     // MARK: - Enum
-    enum State { /// мин для работы с сетью, но может быть больше состояний
+    enum State {
         case none
         case loading
         case loaded
@@ -39,7 +39,7 @@ final class TicketsViewModel {
 
     // MARK: - Private properties
     private var likeAtIndexPath = false
-    private weak var coordinator: TicketsCoordinator?
+    private weak var coordinator: TicketsCoordinatorProtocol?
     private var dataTransformer: DataTransformerProtocol
 
     private var state: State = .none {
@@ -49,7 +49,7 @@ final class TicketsViewModel {
     }
 
     // MARK: - Init
-    init(coordinator: TicketsCoordinator?, dataTransformer: DataTransformerProtocol) {
+    init(coordinator: TicketsCoordinatorProtocol?, dataTransformer: DataTransformerProtocol) {
         self.coordinator = coordinator
         self.dataTransformer = dataTransformer
     }
@@ -92,24 +92,22 @@ extension TicketsViewModel: TicketsViewModelProtocol {
                 self.ticketsListModel = tickets /// . ...мы обновим модель данных (а до этого момента коллекция пустая) загруженными из сети данными
                 self.state = .loaded /// и пепердаем в клоужер closureChangeState state , чтобы он его принял и во VC совершил нужные дейстия согласно этому state
             } catch {
-//                print(error.localizedDescription)
                 switch error {
                 case NetWorkManagerErrors.networkRouterError(error: .badURL):
                     print("NetworkRouter caught error: \(RouterErrors.badURL)")
                     state = .wrong(alertText: "Неизвестная ошибка")
-                    // юзеру "Неизвестная ошибка"; себе - принт из RouterErrors.badURL -  NetworkRouter catches this error: Invalid URL
 
                 case NetWorkManagerErrors.networkRouterError(error: .noInternetConnection):
                     print("NetworkRouter caught error: \(RouterErrors.noInternetConnection)")// себе
                     state = .wrong(alertText: NetWorkManagerErrors.show.descriptionForUser) // юзер увидит "Ошибка соединения с сервером"
 
-                case NetWorkManagerErrors.networkRouterError(error: .serverErrorWith(let code)): // пробрасываем сюда из роутера и тут обрабатываем так?
+                case NetWorkManagerErrors.networkRouterError(error: .serverErrorWith(let code)):
                     print("Bad server response - \(code.description)")
                     state = .wrong(alertText: "Ошибка сервера")
 
                 case NetWorkManagerErrors.mapperError(error: let reason):
-                    print("MapperError caught in TicketsViewModel - \(reason.description)")// себе ошибку из маппера
-                    state = .wrong(alertText: "Неизвестная ошибка") // юзеру
+                    print("MapperError caught in TicketsViewModel - \(reason.description)")
+                    state = .wrong(alertText: "Неизвестная ошибка")
 
                 default:
                     print("TicketsViewModel default caught error: \(error)")
@@ -125,7 +123,7 @@ extension TicketsViewModel: TicketsViewModelProtocol {
         likeAtIndexPath = isLiked // чтобы передать лайк на 2ой (после нажатия на 1ом)
     }
 
-    /// VC в didSelectItemAt вызывает этот метод у ViewModel, а она в свою очередь говорит координатору - открой мне экран: (вызывает метод координатора - pushDetailsVC и передает в него следующие параметры)
+    /// VC в didSelectItemAt вызывает этот метод у ViewModel, а она говорит координатору - открой мне экран: (вызывает метод координатора - pushDetailsVC и передает в него следующие параметры)
     func didTapCell(at indexPath: IndexPath) {
         let modelAtIndexPath = ticketsListModel[indexPath.item]
         likeAtIndexPath = modelAtIndexPath.isLike
@@ -143,7 +141,6 @@ extension TicketsViewModel: TicketsViewModelProtocol {
 extension TicketsViewModel: LikeDelegate2to1 {
 
     func passLikeTo1vc(at indexPath: IndexPath, likeStateFromDetail: Bool) {// 5
-
         ticketsListModel[indexPath.item].isLike = likeStateFromDetail/// like из Detail записываем в модель
         print("Like in TicketsViewModel became - \(ticketsListModel[indexPath.item].isLike)")
         state = .reloadItems(at: [indexPath])

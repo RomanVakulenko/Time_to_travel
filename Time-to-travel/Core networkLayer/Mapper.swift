@@ -25,12 +25,10 @@ final class DataMapper {
 extension DataMapper: MapperProtocol {
     // вариант для async await подхода
     func decode<T: Decodable> (from data: Data, toStruct: T.Type) throws -> T {
-    // у NetworkManager уже есть func getTicketsData() ASYNC (NetworkManager у экземпляра маппера вызывает этот метод) - надо ли тогда текущий метод маппера делать async ?? Почему?
         do {
             let decodedModel = try self.decoder.decode(toStruct, from: data)
             return decodedModel
         } catch let error as DecodingError {
-            // Чтобы узнать место появления ошибки так делают??
             let errorLocation = "in File: \(#file), at Line: \(#line), Column: \(#column)"
             throw MapperError.failParsed(reason: "\(error), \(errorLocation)")
         } catch {

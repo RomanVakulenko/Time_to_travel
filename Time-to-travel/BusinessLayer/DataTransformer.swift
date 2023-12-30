@@ -21,7 +21,7 @@ final class DataTransformer {
         self.networkManager = networkManager
     }
 
-    // MARK: - private method transforms [TicketData] -> [TicketForUI]
+    // MARK: - private methods
     private func createUITicketsFrom(parsedTickets: [TicketData]) -> [TicketForUI] {
         parsedTickets.compactMap {
             guard let departureDate = DateManager.createDateFromString($0.departDate, incommingFormat: "yyyy-MM-dd"),

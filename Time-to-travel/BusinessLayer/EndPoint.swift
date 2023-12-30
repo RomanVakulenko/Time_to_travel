@@ -26,14 +26,12 @@ extension EndPont {
 
     enum Variant {
         case pricesForLatest
-    //  case ...
 
         var path: String {
             switch self {
             case .pricesForLatest:
                 return "/v2/prices/latest"
             }
-    //      case ...
         }
 
         var queryItems: [URLQueryItem] {
@@ -48,7 +46,6 @@ extension EndPont {
                     URLQueryItem(name: "token", value: Use.token)
                 ]
             }
-    //      case ...
         }
     }
 }

@@ -22,33 +22,29 @@ extension NetworkRouter: NetworkRouterProtocol {
     func requestDataWith(_ url: URL) async throws -> Data {
         do {
             let configuration = URLSessionConfiguration.default
-            configuration.timeoutIntervalForRequest = 10// сервер не ответит - ошибка таймаута.
-            configuration.timeoutIntervalForResource = 20// загрузка инфы (файла) не завершится - ошибка таймаута
+            configuration.timeoutIntervalForRequest = 10// if сервер не ответит
+            configuration.timeoutIntervalForResource = 20// if загрузка data не завершится
             let session = URLSession(configuration: configuration)
 
             let (data, response) = try await session.data(from: url)
             if response is HTTPURLResponse {
                 let statusCode = 500
-                // Обработка статуса ответа
                 if statusCode < 200 && statusCode > 299 {
-                    print("500 code")
-                    throw RouterErrors.serverErrorWith(statusCode) // URLError.badServerResponse - //The URL Loading System received bad data from the server.
+                    throw URLError(.badServerResponse) //The URL Loading System received bad data from the server.
                 }
             }
             return data
-        } catch let error as NSError {
+        } catch let error as URLError {
             switch error.code {
-            case NSURLErrorBadURL: // как ЭТИ - свифтовые отловить??
+            case .badServerResponse:
                 throw RouterErrors.badURL
-            case NSURLErrorNotConnectedToInternet:
+            case .notConnectedToInternet:
                 throw RouterErrors.noInternetConnection
-            case NSURLErrorTimedOut:
+            case .timedOut:
                 print("Ошибка: Превышено время ожидания")
             default:
-                print("Принт дефолт кейса роутера: \(error.description)")
+                throw RouterErrors.serverErrorWith(error.code.rawValue)
             }
-            print(error.code) // после разговора убрать (не попал в кейсы - принтит)
-            print("Это принтит, когда в часть url'a (в path) добавляю тире --/v2/prices/latest")// после разговора убрать (не попала в кейсы - принтит)
             throw error
         }
     }

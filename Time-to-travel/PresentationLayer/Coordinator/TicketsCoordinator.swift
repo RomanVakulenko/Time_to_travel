@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+protocol TicketsCoordinatorProtocol: AnyObject {
+    func pushDetailsVC(model: TicketForUI, delegateLike2to1: LikeDelegate2to1, indexPath: IndexPath)
+}
+
+
 final class TicketsCoordinator {
 
     // MARK: - Private properties
@@ -49,6 +54,9 @@ extension TicketsCoordinator: CoordinatorProtocol {
         let vc = createTicketsVC()
         return vc
     }
+}
+
+extension TicketsCoordinator: TicketsCoordinatorProtocol {
     /// когда во VC нажмем на ячейку, то вызываем viewModel.didTapCell(indexPath: indexPath), и тогда  viewModel у себя в didTapCell требует TicketsCoordinator'а запушить-открыть DetailsVC:
     func pushDetailsVC(model: TicketForUI, delegateLike2to1: LikeDelegate2to1, indexPath: IndexPath) {
         let vc = createDetailsVC(model: model, likeDelegate2to1: delegateLike2to1, indexPath: indexPath)
