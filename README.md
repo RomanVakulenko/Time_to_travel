@@ -6,10 +6,10 @@
 - can open details screen
 
 **Stack** 
-- MVVM + Coordinator, async await (GCD commented),
-- Aviasales API, URLSessionConfiguration,
+- MVVM + Coordinator, dependencies injection using protocols, 
+- Aviasales API, async await (GCD commented), URLSessionConfiguration,
 - EndPont, Error handling (throws, catches), Alerts
-- Generic for Mapper, Protocols, Delegate
+- Generic for Mapper, Delegate
 - Collection, Custom Cell, Like/dislike animation, Singleton
 
 
