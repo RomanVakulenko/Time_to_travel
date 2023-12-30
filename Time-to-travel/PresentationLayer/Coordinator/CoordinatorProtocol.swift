@@ -1,4 +1,3 @@
-
 //  CoordinatorProtocol.swift
 //  Time-to-travel
 //
@@ -11,4 +10,3 @@ import UIKit
 protocol CoordinatorProtocol: AnyObject {
     func start() -> UIViewController
 }
-

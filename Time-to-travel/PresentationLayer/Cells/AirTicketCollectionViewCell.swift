@@ -7,20 +7,13 @@
 
 import UIKit
 
-protocol AntiScrollLikeDelegate: AnyObject { ///1.0 нажали лайк в коллекции и чтобы он при скролле не "обнулился"
-    func protectLikeState(at indexPath: IndexPath)
-}
-
 final class AirTicketCollectionViewCell: UICollectionViewCell {
 
-    // MARK: - Public properties
-    ///1.0 нажали лайк в коллекции и чтобы он при скролле не "обнулился"
-    weak var delegateSavingLikeWhenScroll: AntiScrollLikeDelegate?
     // MARK: - Private properties
-    ///1.0 нажали лайк в коллекции и чтобы он при скролле не "обнулился"
-    private var currentIndexPath: IndexPath?
+    var currentLikeState = false
+    var likeFromCellClosure: ((Bool) -> Void)?
 
-    //MARK: - Subviews
+    // MARK: - Subviews
     private let startImage: UIImageView = {
         let startImage = UIImageView()
         startImage.image = UIImage(systemName: "airplane.departure")?.withTintColor(.systemBlue)
@@ -70,11 +63,11 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
         return price
     }()
 
-    private lazy var likes: UIButton = {
+    private lazy var likeButton: UIButton = {
         let likes = UIButton()
         likes.translatesAutoresizingMaskIntoConstraints = false
         likes.tintColor = .red
-        likes.addTarget(self, action: #selector(tapAtLike), for: .touchUpInside)
+        likes.addTarget(self, action: #selector(tapLikeInCollection), for: .touchUpInside)
         likes.isUserInteractionEnabled = true
         return likes
     }()
@@ -90,42 +83,37 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-//    override func prepareForReuse() {
-//        super.prepareForReuse() ///когда происходит binding с ViewModel или подписываемся на "Реактивщину" тогда заnilять, а иначе нет смысла, т.к. в методе cellForItemAt происходит set ячейки
-//    }
+    //    override func prepareForReuse() {
+    //        super.prepareForReuse() ///когда происходит binding с ViewModel или подписываемся на "Реактивщину" тогда заnilять, а иначе нет смысла, т.к. в методе cellForItemAt происходит set ячейки
+    //    }
 
     // MARK: - Public methods
-    ///1.1 из коллекции пробрасываем IndexPath, чтобы   self.currentIndexPath = indexPath
-    func set(model: [FlightTicket], at indexPath: IndexPath) {
-        let formatter = DateFormatter() ///когда будем писать сетевой слой - занести это в хелповую функцию
-        formatter.dateStyle = .short
-        formatter.locale = Locale(identifier: "ru_RU")
-
-        let model = model[indexPath.item]
-
+    /// вызывается каждый раз при показе ячеек коллекции
+    func set(model: TicketForUI) {
         departureCity.text = "\(model.city1)"
         arrivalCity.text = "\(model.city2)"
-        atDate.text = "At \(formatter.string(from: model.departureDate))"
-        landingDate.text = "At \(formatter.string(from: model.arrivalDate))"
-        price.text = "Price: \(String(model.price)) $"
-        
+        atDate.text =   "At \(DateManager.createStringFromDate(model.departureDate, andFormatTo: "dd.MM.yyyy"))"
+        landingDate.text = "At \(DateManager.createStringFromDate(model.arrivalDate, andFormatTo: "dd.MM.yyyy"))"
+        price.text = "Price: \(String(model.price)) ₽"
+
+        /// отрисовываем и актуализируем лайк, чтобы снимался корректно
         if model.isLike == true {
-            likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            currentLikeState = true
         } else {
-            likes.setImage(UIImage(systemName: "heart"), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            currentLikeState = false
         }
-        ///1.2 из коллекции пробрасываем IndexPath, чтобы передать его делегату
-        self.currentIndexPath = indexPath
     }
 
     // MARK: - Private methods
-    private func setupView(){
-        [startImage, finishImage, departureCity, arrivalCity, atDate, landingDate, price, likes].forEach { contentView.addSubview($0) }
+    private func setupView() {
+        [startImage, finishImage, departureCity, arrivalCity, atDate, landingDate, price, likeButton].forEach { contentView.addSubview($0) }
         contentView.layer.cornerRadius = 10
         contentView.backgroundColor = Styles.lightGrayColor
     }
 
-    private func setupLayout(){
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             startImage.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2),
             startImage.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
@@ -154,26 +142,24 @@ final class AirTicketCollectionViewCell: UICollectionViewCell {
             price.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2),
             price.topAnchor.constraint(equalToSystemSpacingBelow: atDate.bottomAnchor, multiplier: 2),
 
-            likes.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            likes.bottomAnchor.constraint(equalTo: price.bottomAnchor)
+            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            likeButton.bottomAnchor.constraint(equalTo: price.bottomAnchor)
         ])
     }
 
-
     // MARK: - Actions
-    @objc func tapAtLike(_ sender: UIButton) {
+    @objc func tapLikeInCollection(_ button: UIButton) {
+        currentLikeState.toggle()
+        likeFromCellClosure?(currentLikeState) // передаем лайк во VC (он дальше - во viewModel)
 
-//#error("как отсюда забрать состояние лайка и передать его в модель, чтобы при скролле лайк не терялся")
-        if likes.currentImage == UIImage(systemName: "heart") {
-            likes.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        if currentLikeState == true {
+            Animate.like(button)
 
-        } else if likes.currentImage == UIImage(systemName: "heart.fill") {
-            likes.setImage(UIImage(systemName: "heart"), for: .normal)
+        } else if currentLikeState == false {
+            Animate.dislike(button)
         }
+        print("Лайк ячейки коллекции стал \(currentLikeState)")
 
-        guard let indexPath = currentIndexPath else { return }
-        ///1.3 делегату говорим, что изменилось состояние по indexPath
-        delegateSavingLikeWhenScroll?.protectLikeState(at: indexPath)
     }
 }
 
@@ -182,6 +168,3 @@ extension AirTicketCollectionViewCell {
         static let heartSize: CGFloat = 36
     }
 }
-
-
-
