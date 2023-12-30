@@ -13,10 +13,15 @@
 		AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */; };
 		ADB923BE2AB85EBC00B3DD78 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB923BD2AB85EBC00B3DD78 /* Mapper.swift */; };
 		ADB923C02AB85ED600B3DD78 /* RouterErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB923BF2AB85ED600B3DD78 /* RouterErrors.swift */; };
+		ADBF51FE2ACACCA9008E119C /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF51FD2ACACCA9008E119C /* EndPoint.swift */; };
+		ADBF52022ACAEF4A008E119C /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF52012ACAEF4A008E119C /* Print.swift */; };
+		ADBF52042ACC45BD008E119C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF52032ACC45BD008E119C /* Alert.swift */; };
 		ADC58D572ABD73EB00961170 /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D562ABD73EB00961170 /* NetworkRouter.swift */; };
 		ADC58D592ABD884900961170 /* MapperError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D582ABD884800961170 /* MapperError.swift */; };
 		ADC58D5C2ABEBC8D00961170 /* NetWorkManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D5B2ABEBC8D00961170 /* NetWorkManagerErrors.swift */; };
 		ADC58D5E2AC1912400961170 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D5D2AC1912400961170 /* DateManager.swift */; };
+		ADC58D612AC1C1BD00961170 /* DataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC58D602AC1C1BD00961170 /* DataTransformer.swift */; };
+		ADE0B7572AD01C3800D117B1 /* Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE0B7562AD01C3800D117B1 /* Animate.swift */; };
 		ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */; };
 		ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */; };
 		ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D00A2A84FD47005BCC73 /* TicketsViewController.swift */; };
@@ -26,7 +31,6 @@
 		ADE1D0202A8500D9005BCC73 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D01F2A8500D9005BCC73 /* Styles.swift */; };
 		ADE1D0222A850116005BCC73 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0212A850116005BCC73 /* UIView + Extension.swift */; };
 		ADE1D0242A85013E005BCC73 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0232A85013E005BCC73 /* UILabel + Extension.swift */; };
-		ADE1D0282A850197005BCC73 /* FlightTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D0272A850197005BCC73 /* FlightTicket.swift */; };
 		ADE1D02B2A8501CB005BCC73 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D02A2A8501CB005BCC73 /* DetailsViewController.swift */; };
 		ADE1D02D2A8501DE005BCC73 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D02C2A8501DE005BCC73 /* DetailsViewModel.swift */; };
 		ADE1D0302A850215005BCC73 /* AirTicketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1D02F2A850215005BCC73 /* AirTicketCollectionViewCell.swift */; };
@@ -42,10 +46,15 @@
 		AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketForUI.swift; sourceTree = "<group>"; };
 		ADB923BD2AB85EBC00B3DD78 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 		ADB923BF2AB85ED600B3DD78 /* RouterErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterErrors.swift; sourceTree = "<group>"; };
+		ADBF51FD2ACACCA9008E119C /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		ADBF52012ACAEF4A008E119C /* Print.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
+		ADBF52032ACC45BD008E119C /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		ADC58D562ABD73EB00961170 /* NetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRouter.swift; sourceTree = "<group>"; };
 		ADC58D582ABD884800961170 /* MapperError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperError.swift; sourceTree = "<group>"; };
 		ADC58D5B2ABEBC8D00961170 /* NetWorkManagerErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkManagerErrors.swift; sourceTree = "<group>"; };
 		ADC58D5D2AC1912400961170 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
+		ADC58D602AC1C1BD00961170 /* DataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransformer.swift; sourceTree = "<group>"; };
+		ADE0B7562AD01C3800D117B1 /* Animate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animate.swift; sourceTree = "<group>"; };
 		ADE1D0032A84FD47005BCC73 /* Time-to-travel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time-to-travel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE1D0062A84FD47005BCC73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADE1D0082A84FD47005BCC73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,7 +66,6 @@
 		ADE1D01F2A8500D9005BCC73 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		ADE1D0212A850116005BCC73 /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 		ADE1D0232A85013E005BCC73 /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
-		ADE1D0272A850197005BCC73 /* FlightTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightTicket.swift; sourceTree = "<group>"; };
 		ADE1D02A2A8501CB005BCC73 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		ADE1D02C2A8501DE005BCC73 /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
 		ADE1D02F2A850215005BCC73 /* AirTicketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirTicketCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -89,9 +97,25 @@
 			path = "Core networkLayer";
 			sourceTree = "<group>";
 		};
+		ADBF52052ACC59E9008E119C /* PresentationLayer */ = {
+			isa = PBXGroup;
+			children = (
+				ADE1D0342A864D03005BCC73 /* Coordinator */,
+				ADE1D0292A85019F005BCC73 /* Models */,
+				ADE1D01A2A84FFF0005BCC73 /* TicketsVC */,
+				ADE1D02E2A8501EB005BCC73 /* DetailsVC */,
+				ADE1D0312A850224005BCC73 /* Cells */,
+				ADE1D0262A850166005BCC73 /* Styles */,
+				ADE1D0252A850152005BCC73 /* Extensions */,
+			);
+			path = PresentationLayer;
+			sourceTree = "<group>";
+		};
 		ADC58D5A2ABEB2D600961170 /* BusinessLayer */ = {
 			isa = PBXGroup;
 			children = (
+				ADC58D602AC1C1BD00961170 /* DataTransformer.swift */,
+				ADBF51FD2ACACCA9008E119C /* EndPoint.swift */,
 				AD1B7D3F2A9F8911008E0098 /* NetworkManager.swift */,
 				ADC58D5B2ABEBC8D00961170 /* NetWorkManagerErrors.swift */,
 				ADC58D5F2AC191FF00961170 /* Helper */,
@@ -103,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				ADC58D5D2AC1912400961170 /* DateManager.swift */,
+				ADBF52032ACC45BD008E119C /* Alert.swift */,
+				ADE0B7562AD01C3800D117B1 /* Animate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -126,16 +152,10 @@
 		ADE1D0052A84FD47005BCC73 /* Time-to-travel */ = {
 			isa = PBXGroup;
 			children = (
-				ADE1D0342A864D03005BCC73 /* Coordinator */,
+				ADE1D01E2A8500B3005BCC73 /* Application */,
+				ADBF52052ACC59E9008E119C /* PresentationLayer */,
 				ADC58D5A2ABEB2D600961170 /* BusinessLayer */,
 				AD1B7D432A9F9080008E0098 /* Core networkLayer */,
-				ADE1D0292A85019F005BCC73 /* Models */,
-				ADE1D01A2A84FFF0005BCC73 /* TicketsVC */,
-				ADE1D02E2A8501EB005BCC73 /* DetailsVC */,
-				ADE1D0312A850224005BCC73 /* Cells */,
-				ADE1D0252A850152005BCC73 /* Extensions */,
-				ADE1D01E2A8500B3005BCC73 /* Application */,
-				ADE1D0262A850166005BCC73 /* Styles */,
 				ADE1D01D2A85002A005BCC73 /* Resources */,
 			);
 			path = "Time-to-travel";
@@ -172,6 +192,7 @@
 		ADE1D0252A850152005BCC73 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				ADBF52012ACAEF4A008E119C /* Print.swift */,
 				ADE1D0212A850116005BCC73 /* UIView + Extension.swift */,
 				ADE1D0232A85013E005BCC73 /* UILabel + Extension.swift */,
 			);
@@ -189,7 +210,6 @@
 		ADE1D0292A85019F005BCC73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				ADE1D0272A850197005BCC73 /* FlightTicket.swift */,
 				AD1B7D462AA0D4C9008E0098 /* TicketsDecoded.swift */,
 				AD1B7D482AA0F3B5008E0098 /* TicketForUI.swift */,
 			);
@@ -296,24 +316,28 @@
 				ADE1D01C2A850017005BCC73 /* TicketsViewModel.swift in Sources */,
 				ADC58D572ABD73EB00961170 /* NetworkRouter.swift in Sources */,
 				ADE1D0202A8500D9005BCC73 /* Styles.swift in Sources */,
+				ADBF52022ACAEF4A008E119C /* Print.swift in Sources */,
 				ADE1D0362A864D33005BCC73 /* CoordinatorProtocol.swift in Sources */,
 				ADE1D02B2A8501CB005BCC73 /* DetailsViewController.swift in Sources */,
 				ADB923BE2AB85EBC00B3DD78 /* Mapper.swift in Sources */,
 				AD1B7D402A9F8911008E0098 /* NetworkManager.swift in Sources */,
 				ADE1D03A2A864D60005BCC73 /* TicketsCoordinator.swift in Sources */,
+				ADBF52042ACC45BD008E119C /* Alert.swift in Sources */,
 				ADE1D0222A850116005BCC73 /* UIView + Extension.swift in Sources */,
 				ADE1D0242A85013E005BCC73 /* UILabel + Extension.swift in Sources */,
 				ADE1D00B2A84FD47005BCC73 /* TicketsViewController.swift in Sources */,
 				AD1B7D492AA0F3B5008E0098 /* TicketForUI.swift in Sources */,
+				ADBF51FE2ACACCA9008E119C /* EndPoint.swift in Sources */,
 				AD1B7D472AA0D4C9008E0098 /* TicketsDecoded.swift in Sources */,
+				ADC58D612AC1C1BD00961170 /* DataTransformer.swift in Sources */,
 				ADC58D5E2AC1912400961170 /* DateManager.swift in Sources */,
 				ADB923C02AB85ED600B3DD78 /* RouterErrors.swift in Sources */,
-				ADE1D0282A850197005BCC73 /* FlightTicket.swift in Sources */,
 				ADE1D02D2A8501DE005BCC73 /* DetailsViewModel.swift in Sources */,
 				ADE1D0072A84FD47005BCC73 /* AppDelegate.swift in Sources */,
 				ADC58D5C2ABEBC8D00961170 /* NetWorkManagerErrors.swift in Sources */,
 				ADC58D592ABD884900961170 /* MapperError.swift in Sources */,
 				ADE1D0382A864D46005BCC73 /* MainCoordinator.swift in Sources */,
+				ADE0B7572AD01C3800D117B1 /* Animate.swift in Sources */,
 				ADE1D0092A84FD47005BCC73 /* SceneDelegate.swift in Sources */,
 				AD1B7D422A9F9079008E0098 /* Singleton.swift in Sources */,
 				ADE1D0302A850215005BCC73 /* AirTicketCollectionViewCell.swift in Sources */,
@@ -468,6 +492,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -enable-actor-data-race-checks";
 				PRODUCT_BUNDLE_IDENTIFIER = "i.Time-to-travel";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -496,6 +521,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -enable-actor-data-race-checks";
 				PRODUCT_BUNDLE_IDENTIFIER = "i.Time-to-travel";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -17,7 +17,7 @@ final class TicketsViewController: UIViewController {
     // MARK: - Private properties
     private let viewModel: TicketsViewModelProtocol // т.к. NetworkAPIProtocol тут не нужен
 
-    //MARK: - Subviews
+    // MARK: - Subviews
     private lazy var loadindView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -119,9 +119,10 @@ final class TicketsViewController: UIViewController {
             case .reloadItems(let indexPaths):
                 collectionView.reloadItems(at: indexPaths)
 
-            case .wrong(errorDescription: let errorDescription):
-                ()
-                // произошла ошибка
+            case .wrong(let alertTextForUser):
+                DispatchQueue.main.async {
+                    Alert.showToUser(atVC: self, errorDescriptionToUser: alertTextForUser)
+                }
             }
         }
     }
@@ -147,7 +148,7 @@ final class TicketsViewController: UIViewController {
             planeImage.heightAnchor.constraint(equalToConstant: 128),
 
             appTitle.centerXAnchor.constraint(equalTo: loadindView.centerXAnchor),
-            appTitle.topAnchor.constraint(equalTo: planeImage.bottomAnchor, constant: 16),
+            appTitle.topAnchor.constraint(equalTo: planeImage.bottomAnchor, constant: 16)
         ])
     }
 
@@ -160,17 +161,23 @@ extension TicketsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: AirTicketCollectionViewCell.identifier,
-            for: indexPath) as! AirTicketCollectionViewCell
+            for: indexPath) as? AirTicketCollectionViewCell else {
+            return UICollectionViewCell()
+        }
 
         let model = viewModel.ticketsListModel[indexPath.item]
-        cell.set(model: model, at: indexPath)
+        cell.set(model: model)
+        /// нажали лайк в ячейке и прокидываем его во viewModel, а она через координатор на 2ой экран
+        cell.likeFromCellClosure = { [weak self] isLiked in
+                self?.viewModel.updateLikeState(isLiked, at: indexPath)
+        }
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.didTapCell(indexPath: indexPath) ///сообщаем viewModelи, что произошло нажатие
+        viewModel.didTapCell(at: indexPath) /// сообщаем viewModelи, что нажали на ячейку
     }
 }
 
@@ -183,7 +190,7 @@ extension TicketsViewController: UICollectionViewDelegateFlowLayout {
             height: 128
         )
     }
-    ///отступы по периметру дисплея
+    /// отступы по периметру дисплея
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(
             top: Constants.inset,
@@ -192,7 +199,7 @@ extension TicketsViewController: UICollectionViewDelegateFlowLayout {
             right: Constants.inset
         )
     }
-    ///между рядами-строками для вертикальной коллекции
+    /// между рядами-строками для вертикальной коллекции
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         Constants.inset * 2
     }
@@ -204,6 +211,3 @@ extension TicketsViewController {
         static let inset: CGFloat = 8
     }
 }
-
-
-
